@@ -3,7 +3,7 @@ use warnings;
 
 use t::lib::Debugger;
 
-my $pid = start_script('t/eg/01-add.pl');
+my ($dir, $pid) = start_script('t/eg/01-add.pl');
 
 require Test::More;
 import Test::More;
@@ -13,6 +13,7 @@ my $D = re('\d+');
 
 plan(tests => 7);
 
+diag("PID $pid");
 my $debugger = start_debugger();
 isa_ok($debugger, 'Debug::Client');
 
@@ -53,4 +54,8 @@ isa_ok($debugger, 'Debug::Client');
     my @out = $debugger->step_in;
     cmp_deeply(\@out, ['main::', 't/eg/01-add.pl', 8, 'my $z = $x + $y;', $D], 'line 8')
         or diag($debugger->buffer);
+}
+{
+    $debugger->quit;
+    sleep 1;
 }

@@ -11,7 +11,7 @@ require Test::Deep;
 import Test::Deep;
 my $D = re('\d+');
 
-plan(tests => 6);
+plan(tests => 3);
 
 my $debugger = start_debugger();
 
@@ -37,27 +37,6 @@ my $debugger = start_debugger();
 }
 
 {
-    my @out = $debugger->set_breakpoint('t/eg/03-return.pl', 'g');
-    cmp_deeply(\@out, ['', $D], 'set_breakpoint')
-        or diag($debugger->buffer);
-}
-
-{
-    my @out = $debugger->run;
-    cmp_deeply(\@out, ['main::g', 't/eg/03-return.pl', 22, q{   my (@in) = @_;}, $D], 'line 9')
-        or diag($debugger->buffer);
-}
-
-
-{
-# Debugged program terminated.  Use q to quit or R to restart,
-#   use o inhibit_exit to avoid stopping after program termination,
-#   h q, h R or h o to get additional info.  
-#   DB<1> 
-    my $out = $debugger->run;
-    like($out, qr/Debugged program terminated/);
-}
-
-{
     $debugger->quit;
 }
+# TODO add something that checks the debugger really exited.

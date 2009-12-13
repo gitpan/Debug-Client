@@ -1,32 +1,31 @@
 ---
-name: Debug-Client
-version: 0.04
+abstract: 'client side code for perl debugger'
 author:
-  - Gabor Szabo
-abstract: client side code for perl debugger
+  - 'Gabor Szabo'
+build_requires:
+  ExtUtils::MakeMaker: 6.42
+  Test::Deep: 0
+  Test::More: 0.47
+configure_requires:
+  ExtUtils::MakeMaker: 6.42
+distribution_type: module
+generated_by: 'Module::Install version 0.91'
 license: perl
+meta-spec:
+  url: http://module-build.sourceforge.net/META-spec-v1.4.html
+  version: 1.4
+name: Debug-Client
+no_index:
+  directory:
+    - inc
+    - t
+requires:
+  IO::Socket: 0
+  Test::More: 0.47
+  perl: 5.006
 resources:
-  MailingList: http://mail.perlide.org/mailman/listinfo/padre-dev
-  Repository: http://svn.perlide.org/padre/projects/debugger
   bugtracker: http://padre.perlide.org/
   homepage: http://padre.perlide.org/
   license: http://dev.perl.org/licenses/
-requires:
-  IO::Socket: 0
-  perl: 5.006
-build_requires:
-  Test::Deep: 0
-  Test::More: 0.47
-provides:
-  Debug::Client:
-    file: lib/Debug/Client.pm
-    version: 0.04
-generated_by: Module::Build version 0.2808
-meta-spec:
-  url: http://module-build.sourceforge.net/META-spec-v1.2.html
-  version: 1.2
-no_index:
-  directory:
-    - t
-    - eg
-    - share
+  repository: http://svn.perlide.org/padre/trunk/Debug-Client/
+version: 0.05
