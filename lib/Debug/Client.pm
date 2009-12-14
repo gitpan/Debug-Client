@@ -3,7 +3,7 @@ use strict;
 use warnings;
 use 5.006;
 
-our $VERSION = '0.05';
+our $VERSION = '0.06';
 
 use IO::Socket;
 
@@ -30,16 +30,25 @@ Debug::Client - client side code for perl debugger
   $out = $debugger->step_over;
 
 
-  my ($module, $file, $row, $content, $prompt) = $debugger->step_in;
-  my ($module, $file, $row, $content, $prompt, $return_value) = $debugger->step_out;
-  my ($value, $prompt) = $debugger->get_value('$x');
+  my ($prompt, $module, $file, $row, $content) = $debugger->step_in;
+  my ($prompt, $module, $file, $row, $content, $return_value) = $debugger->step_out;
+  my ($prompt, $value) = $debugger->get_value('$x');
 
   $debugger->run();         # run till end of breakpoint or watch
   $debugger->run( 42 );     # run till line 42  (c in the debugger)
   $debugger->run( 'foo' );  # tun till beginning of sub
 
-  $debugger->execute_code
+  $debugger->execute_code( '$answer = 42' );
 
+  $debugger->execute_code( '@name = qw(foo bar)' );
+
+  my ($prompt, $value) = $debugger->get_value('@name');  $value is the dumped data?
+
+  $debugger->execute_code( '%phone_book = (foo => 123, bar => 456)' );
+
+  my ($prompt, $value) = $debugger->get_value('%phone_book');  $value is the dumped data?
+  
+  
   $debugger->set_breakpoint( "file", 23 ); # 	set breakpoint on file, line
 
   $debugger->get_stack_trace
@@ -60,7 +69,21 @@ Other planned methods:
 
 =cut
 
+=head2 new
 
+The constructor can get two parameters: host and port.
+
+  my $d = Debug::Client->new;
+
+  my $d = Debug::Client->new(host => 'remote.hots.com', port => 4242);
+   
+Immediately after the object creation one needs to call
+
+  $d->listen;
+  
+TODO: Is there any reason to separate the two?
+
+=cut
 
 sub new {
     my ($class, %args) = @_;
@@ -69,8 +92,6 @@ sub new {
     %args = (host => 'localhost', port => 12345,
              %args);
 
-    die("Usage: $0 hostname portno") unless ($args{host} =~ /\w+/ && $args{port} =~ /^\d+$/);
-
     # Open the socket the debugger will connect to.
     my $sock = IO::Socket::INET->new(
                    LocalHost => $args{host},
@@ -78,24 +99,30 @@ sub new {
                    Proto     => 'tcp',
                    Listen    => SOMAXCONN,
                    Reuse     => 1);
-    $sock or die "no socket :$!";
-    #print "listening on $args{host}:$args{port}\n";
+    $sock or die "Could not connect to '$args{host}' '$args{port}' no socket :$!";
+    _logger("listening on '$args{host}:$args{port}'");
     $self->{sock} = $sock;
 
     return $self;
 }
 
+=head2 listen
+
+See C<new>
+
+=cut
+
 sub listen {
     my ($self) = @_;
 
     $self->{new_sock} = $self->{sock}->accept();
-    return;
 
+    return;
 }
 
 =head2 buffer
 
-return the content of the buffer since the last command
+Returns the content of the buffer since the last command
 
   $debugger->buffer;
 
@@ -106,37 +133,38 @@ sub buffer {
     return $self->{buffer};
 }
 
-sub step_in   { $_[0]->send_get('s') }
-sub step_over { $_[0]->send_get('n') }
+=head2 quit
+
+=cut
+
 sub quit      { $_[0]->_send('q')    }
+
+=head2 show_line
+
+=cut
+
 sub show_line { $_[0]->send_get('.') }
 
-sub get_stack_trace {
-    my ($self) = @_;
-    $self->_send('T');
-    my $buf = $self->_get;
 
-    if (wantarray) {
-        my $prompt = _prompt(\$buf);
-        return($buf, $prompt);
-    } else {
-        return $buf;
-    }
-}
+=head2 step_in
 
+=cut
 
+sub step_in   { $_[0]->send_get('s') }
 
-sub run       { 
-    my ($self, $param) = @_;
-    if (not defined $param) {
-        $self->send_get('c');
-    } else {
-        $self->send_get("c $param");
-    }
-}
+=head2 step_over
+
+=cut
+
+sub step_over { $_[0]->send_get('n') }
+
+=head2 step_out
+
+=cut
 
 sub step_out  { 
     my ($self) = @_;
+
     $self->_send('r');
     my $buf = $self->_get;
 
@@ -162,11 +190,56 @@ sub step_out  {
         #if ($context and $context eq 'list') {
             # TODO can we parse this inteligently in the general case?
         #}
-        return (@line, $prompt, $ret);
+        return ($prompt, @line, $ret);
     } else {
         return $buf;
     }
 }
+
+
+=head2 get_stack_trace
+
+=cut
+
+sub get_stack_trace {
+    my ($self) = @_;
+    $self->_send('T');
+    my $buf = $self->_get;
+
+    if (wantarray) {
+        my $prompt = _prompt(\$buf);
+        return($prompt, $buf);
+    } else {
+        return $buf;
+    }
+}
+
+=head2 run
+
+  $d->run;
+  
+Will run till the next breakpoint or watch or the end of
+the script. (Like pressing c in the debugger).
+
+  $d->run($param)
+
+
+=cut
+sub run       { 
+    my ($self, $param) = @_;
+    if (not defined $param) {
+        $self->send_get('c');
+    } else {
+        $self->send_get("c $param");
+    }
+}
+
+
+=head2 set_breakpoint
+
+ $d->set_breakpoint($file, $line, $condition);
+
+=cut
 
 #  TODO: Line 15 not breakable.
 sub set_breakpoint {
@@ -180,12 +253,15 @@ sub set_breakpoint {
     my $buf = $self->_get;
     if (wantarray) {
         my $prompt = _prompt(\$buf);
-        return($buf, $prompt);
+        return($prompt, $buf);
     } else {
         return $buf;
     }
 }
 
+=head2 execute_code
+
+=cut
 
 sub execute_code {
     my ($self, $code) = @_;
@@ -194,12 +270,18 @@ sub execute_code {
     my $buf = $self->_get;
     if (wantarray) {
        my $prompt = _prompt(\$buf);
-       return ($buf, $prompt);
+       return ($prompt, $buf);
     } else {
        return $buf;
     }
 }
 
+=head2 get_value
+
+=cut
+
+# TODO if the given $x is a reference then something (either this module
+# or its user) should actually call   x $var 
 sub get_value {
     my ($self, $var) = @_;
     die "no parameter given\n" if not defined $var;
@@ -209,7 +291,7 @@ sub get_value {
         my $buf = $self->_get;
         if (wantarray) {
             my $prompt = _prompt(\$buf);
-            return ($buf, $prompt);
+            return ($prompt, $buf);
         } else {
             return $buf
         }
@@ -219,7 +301,7 @@ sub get_value {
         if (wantarray) {
             my $prompt = _prompt(\$buf);
             my $data_ref = _parse_dumper($buf);
-            return ($data_ref, $prompt);
+            return ($prompt, $data_ref);
         } else {
             return $buf
         }
@@ -228,7 +310,8 @@ sub get_value {
 }
 
 sub _parse_dumper {
-    my ($str) = @_;    
+    my ($str) = @_;
+    return $str;
 }
 
 # TODO shall we add a timeout and/or a number to count down the number
@@ -243,12 +326,12 @@ sub _get {
         if (not defined $ret) {
             die $!; # TODO better error handling?
         }
-        logger("---- ret '$ret'\n$buf\n---");
+        _logger("---- ret '$ret'\n$buf\n---");
         if (not $ret) {
             last;
         }
     }
-    logger("_get done");
+    _logger("_get done");
 
     $self->{buffer} = $buf;
     return $buf;
@@ -274,7 +357,11 @@ sub _process_line {
     my ($module, $file, $row, $content);
     # the last line before 
     # main::(t/eg/01-add.pl:8):  my $z = $x + $y;
-    if ($line =~ /^([\w:]*)\(([^\)]*):(\d+)\):\t(.*)/m) {
+    if ($line =~ /^([\w:]*)                  # module
+                  \(   ([^\)]*):(\d+)   \)   # (file:row)
+                  :\t                        # :
+                  (.*)                       # content
+                  /mx) {
         ($module, $file, $row, $content) = ($1, $2, $3, $4);
     }
     return ($module, $file, $row, $content);
@@ -288,7 +375,7 @@ sub get {
     if (wantarray) {
         my $prompt = _prompt(\$buf);
         my ($module, $file, $row, $content) = _process_line(\$buf);
-        return ($module, $file, $row, $content, $prompt);
+        return ($prompt, $module, $file, $row, $content);
     } else {
         return $buf;
     }
@@ -308,7 +395,7 @@ sub send_get {
     return $self->get;
 }
 
-sub logger {
+sub _logger {
     print "$_[0]\n" if $ENV{DEBUG_LOGGER};
 }
 

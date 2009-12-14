@@ -24,8 +24,10 @@ t/05-execute.t
 t/06-breakpoint.t
 t/07-quit.t
 t/08-recursive.t
+t/09-io.t
 t/eg/01-add.pl
 t/eg/02-sub.pl
 t/eg/03-return.pl
 t/eg/04-fib.pl
+t/eg/05-io.pl
 t/lib/Debugger.pm
