@@ -13,7 +13,7 @@ my $PROMPT = re('\d+');
 
 our $TODO; # needed becasue Test::More is required and not used
 
-plan(tests => 13);
+plan(tests => 18);
 
 my $debugger = start_debugger();
 
@@ -42,6 +42,23 @@ my $debugger = start_debugger();
     cmp_deeply(\@out, [$PROMPT, 'main::', 't/eg/02-sub.pl', 7, 'my $y = 22;'], 'line 7')
         or diag($debugger->buffer);
 }
+
+{
+    my @out = $debugger->execute_code();
+    cmp_deeply(\@out, [], 'no code')
+        or diag($debugger->buffer);
+    my $out = $debugger->execute_code();
+    is($out, undef, 'no code in scalar context');
+}
+
+{
+    my @out = $debugger->execute_code('19+23');
+    cmp_deeply(\@out, ['2', ''], 'no code')
+        or diag($debugger->buffer);
+    my $out = $debugger->execute_code('19+23');
+    is($out, "\n  DB<3> ", 'no code in scalar context');
+}
+
 
 {
     my @out = $debugger->execute_code('$abc = 23');
@@ -81,17 +98,23 @@ TODO: {
 
 
 {
-    my @out = $debugger->set_breakpoint( 't/eg/02-sub.pl', 15 );
+    my @out = $debugger->set_breakpoint( 't/eg/02-sub.pl', 18 );
     cmp_deeply(\@out, [$PROMPT, ''], 'set_breakpoint')
         or diag($debugger->buffer);
 }
 
 {
     my @out = $debugger->run;
-    cmp_deeply(\@out, [$PROMPT, 'main::f', 't/eg/02-sub.pl', 15, '   my $add   = $q + $w;'], 'line 15')
+    cmp_deeply(\@out, [$PROMPT, 'main::f', 't/eg/02-sub.pl', 18, '   my $add   = $q + $w;'], 'line 18')
         or diag($debugger->buffer);
 }
 
+# TODO maybe check if we can remove the breakpoint
+{
+    my @out = $debugger->run;
+    cmp_deeply(\@out, [$PROMPT, 'main::f', 't/eg/02-sub.pl', 18, '   my $add   = $q + $w;'], 'line 18')
+        or diag($debugger->buffer);
+}
 
 {
 # Debugged program terminated.  Use q to quit or R to restart,

@@ -3,7 +3,7 @@ use strict;
 use warnings;
 use 5.006;
 
-our $VERSION = '0.06';
+our $VERSION = '0.07';
 
 use IO::Socket;
 
@@ -261,11 +261,15 @@ sub set_breakpoint {
 
 =head2 execute_code
 
+  $d->execute_code($some_code_to_execute);
+
 =cut
 
 sub execute_code {
     my ($self, $code) = @_;
+    
     return if not defined $code;
+
     $self->_send($code);
     my $buf = $self->_get;
     if (wantarray) {
@@ -277,6 +281,13 @@ sub execute_code {
 }
 
 =head2 get_value
+
+
+ my ($prompt, $value) = $d->get_value($x);
+
+If $x is a scalar value, $value will contain that value.
+If it is a reference to a SCALAR, ARRAY or HASH then $value should be the
+value of that reference?
 
 =cut
 
@@ -366,6 +377,23 @@ sub _process_line {
     }
     return ($module, $file, $row, $content);
 }
+
+=head get
+
+Actually I think this is an internal method....
+
+In SCALAR context will return all the buffer collected since the last command.
+
+In LIST context will return ($prompt, $module, $file, $row, $content)
+Where $prompt is the what the standard debugger uses for prompt. Probably not too
+interesting.
+$file and $row describe the location of the next instructions.
+$content is the actual line - this is probably not too interesting as it is 
+in the editor. $module is just the name of the module in which the current execution is.
+
+
+
+=cut
 
 sub get {
     my ($self) = @_;
