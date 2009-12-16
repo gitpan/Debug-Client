@@ -3,7 +3,7 @@ use strict;
 use warnings;
 use 5.006;
 
-our $VERSION = '0.07';
+our $VERSION = '0.08';
 
 use IO::Socket;
 
@@ -160,6 +160,19 @@ sub step_over { $_[0]->send_get('n') }
 
 =head2 step_out
 
+ my ($prompt, $module, $file, $row, $content, $return_value) = $debugger->step_out;
+
+Where $prompt is just a number, probably useless
+
+$return_value  will be undef if the function was called in VOID context
+
+It will hold a scalar value if called in SCALAR context
+
+It will hold a reference to an array if called in LIST context.
+
+TODO: check what happens when the return value is a reference to a complex data structure
+or when some of the elements of the returned array are themselves references
+
 =cut
 
 sub step_out  { 
@@ -168,7 +181,11 @@ sub step_out  {
     $self->_send('r');
     my $buf = $self->_get;
 
+    # void context return from main::f
     # scalar context return from main::f: 242
+    # list  context return from main::f:
+    # 0 22
+    # 1 34
     # main::(t/eg/02-sub.pl:9):	my $z = $x + $y;
 
     # list context return from main::g:
@@ -225,7 +242,7 @@ the script. (Like pressing c in the debugger).
 
 
 =cut
-sub run       { 
+sub run { 
     my ($self, $param) = @_;
     if (not defined $param) {
         $self->send_get('c');
@@ -241,7 +258,7 @@ sub run       {
 
 =cut
 
-#  TODO: Line 15 not breakable.
+
 sub set_breakpoint {
     my ($self, $file, $line, $cond) = @_;
 
@@ -250,14 +267,37 @@ sub set_breakpoint {
     # Already in t/eg/02-sub.pl.
 
     $self->_send("b $line");
+    # if it was successful no reply
+    # if it failed we saw two possible replies
     my $buf = $self->_get;
-    if (wantarray) {
-        my $prompt = _prompt(\$buf);
-        return($prompt, $buf);
-    } else {
-        return $buf;
+    my $prompt = _prompt(\$buf);
+    if ($buf =~ /^Subroutine [\w:]+ not found\./) {
+        # failed
+        return 0;
+    } elsif ($buf =~ /^Line \d+ not breakable\./) {
+        # faild to set on line number
+        return 0;
+    } elsif ($buf =~ /\S/) {
+        return 0;
     }
+
+    return 1;
 }
+
+# apparently no clear success/error report for this
+sub remove_breakpoint {
+    my ($self, $file, $line) = @_;
+
+    $self->_send("f $file");
+    my $b = $self->_get;
+
+    $self->_send("B $line");
+    my $buf = $self->_get;
+    return 1;
+}
+
+sub list_break_watch_action { $_[0]->send_get('L') }
+
 
 =head2 execute_code
 

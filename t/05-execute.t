@@ -13,7 +13,7 @@ my $PROMPT = re('\d+');
 
 our $TODO; # needed becasue Test::More is required and not used
 
-plan(tests => 18);
+plan(tests => 19);
 
 my $debugger = start_debugger();
 
@@ -53,10 +53,11 @@ my $debugger = start_debugger();
 
 {
     my @out = $debugger->execute_code('19+23');
-    cmp_deeply(\@out, ['2', ''], 'no code')
+    cmp_deeply(\@out, [$PROMPT, ''], 'no code')
         or diag($debugger->buffer);
     my $out = $debugger->execute_code('19+23');
-    is($out, "\n  DB<3> ", 'no code in scalar context');
+    ok($out =~ s/DB<\d+> $/DB<> /, 'replace number as it can be different on other versions of perl');
+    is($out, "\n  DB<> ", 'no code in scalar context');
 }
 
 
@@ -98,9 +99,7 @@ TODO: {
 
 
 {
-    my @out = $debugger->set_breakpoint( 't/eg/02-sub.pl', 18 );
-    cmp_deeply(\@out, [$PROMPT, ''], 'set_breakpoint')
-        or diag($debugger->buffer);
+    ok($debugger->set_breakpoint( 't/eg/02-sub.pl', 18 ), 'set_breakpoint');
 }
 
 {
