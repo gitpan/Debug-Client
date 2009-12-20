@@ -20,6 +20,7 @@ no_index:
     - inc
     - t
 requires:
+  Carp: 0
   IO::Socket: 0
   Test::More: 0.47
   perl: 5.006
@@ -28,4 +29,4 @@ resources:
   homepage: http://padre.perlide.org/
   license: http://dev.perl.org/licenses/
   repository: http://svn.perlide.org/padre/trunk/Debug-Client/
-version: 0.09
+version: 0.10
