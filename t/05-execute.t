@@ -9,11 +9,10 @@ require Test::More;
 import Test::More;
 require Test::Deep;
 import Test::Deep;
-my $PROMPT = re('\d+');
 
 our $TODO; # needed becasue Test::More is required and not used
 
-plan(tests => 19);
+plan(tests => 18);
 
 my $debugger = start_debugger();
 
@@ -34,12 +33,12 @@ my $debugger = start_debugger();
 
 {
     my @out = $debugger->step_in;
-    cmp_deeply(\@out, [$PROMPT, 'main::', 't/eg/02-sub.pl', 6, 'my $x = 11;'], 'line 6')
+    cmp_deeply(\@out, ['main::', 't/eg/02-sub.pl', 6, 'my $x = 11;'], 'line 6')
         or diag($debugger->buffer);
 }
 {
     my @out = $debugger->step_in;
-    cmp_deeply(\@out, [$PROMPT, 'main::', 't/eg/02-sub.pl', 7, 'my $y = 22;'], 'line 7')
+    cmp_deeply(\@out, ['main::', 't/eg/02-sub.pl', 7, 'my $y = 22;'], 'line 7')
         or diag($debugger->buffer);
 }
 
@@ -53,47 +52,46 @@ my $debugger = start_debugger();
 
 {
     my @out = $debugger->execute_code('19+23');
-    cmp_deeply(\@out, [$PROMPT, ''], 'no code')
+    cmp_deeply(\@out, [''], 'no code')
         or diag($debugger->buffer);
     my $out = $debugger->execute_code('19+23');
-    ok($out =~ s/DB<\d+> $/DB<> /, 'replace number as it can be different on other versions of perl');
-    is($out, "\n  DB<> ", 'no code in scalar context');
+    is($out, "", 'no code in scalar context');
 }
 
 
 {
     my @out = $debugger->execute_code('$abc = 23');
-    cmp_deeply(\@out, [$PROMPT, ''], 'execute 1')
+    cmp_deeply(\@out, [''], 'execute 1')
         or diag($debugger->buffer);
 }
 {
     my @out = $debugger->get_value('$abc');
-    cmp_deeply(\@out, [$PROMPT, 23], 'execute 1')
+    cmp_deeply(\@out, [23], 'execute 1')
         or diag($debugger->buffer);
 }
 {
     my @out = $debugger->execute_code('@qwe = (23, 42)');
-    cmp_deeply(\@out, [$PROMPT, ''], 'execute 2')
+    cmp_deeply(\@out, [''], 'execute 2')
         or diag($debugger->buffer);
 }
 
 TODO: {
     local $TODO = 'get_value of array';
     my @out = $debugger->get_value('@qwe');
-    cmp_deeply(\@out, [$PROMPT, 23, 42], 'get_value of array')
+    cmp_deeply(\@out, [23, 42], 'get_value of array')
         or diag($debugger->buffer);
 }
 
 {
     my @out = $debugger->execute_code('%h = (fname => "foo", lname => "bar")');
-    cmp_deeply(\@out, [$PROMPT, ''], 'execute 3')
+    cmp_deeply(\@out, [''], 'execute 3')
         or diag($debugger->buffer);
 }
 
 TODO: {
     local $TODO = 'get_value of hash';
     my @out = $debugger->get_value('%h');
-    cmp_deeply(\@out, [$PROMPT], 'get_value of hash')
+    cmp_deeply(\@out, [], 'get_value of hash')
         or diag($debugger->buffer);
 }
 
@@ -104,14 +102,14 @@ TODO: {
 
 {
     my @out = $debugger->run;
-    cmp_deeply(\@out, [$PROMPT, 'main::f', 't/eg/02-sub.pl', 18, '   my $add   = $q + $w;'], 'line 18')
+    cmp_deeply(\@out, ['main::f', 't/eg/02-sub.pl', 18, '   my $add   = $q + $w;'], 'line 18')
         or diag($debugger->buffer);
 }
 
 # TODO maybe check if we can remove the breakpoint
 {
     my @out = $debugger->run;
-    cmp_deeply(\@out, [$PROMPT, 'main::f', 't/eg/02-sub.pl', 18, '   my $add   = $q + $w;'], 'line 18')
+    cmp_deeply(\@out, ['main::f', 't/eg/02-sub.pl', 18, '   my $add   = $q + $w;'], 'line 18')
         or diag($debugger->buffer);
 }
 

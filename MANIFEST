@@ -31,4 +31,6 @@ t/eg/02-sub.pl
 t/eg/03-return.pl
 t/eg/04-fib.pl
 t/eg/05-io.pl
+t/eg/10-module.pl
+t/eg/11-changes.pl
 t/lib/Debugger.pm
