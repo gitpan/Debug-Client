@@ -4,12 +4,13 @@ author:
   - 'Gabor Szabo'
 build_requires:
   ExtUtils::MakeMaker: 6.42
+  File::HomeDir: 0
   Test::Deep: 0
   Test::More: 0.47
 configure_requires:
   ExtUtils::MakeMaker: 6.42
 distribution_type: module
-generated_by: 'Module::Install version 0.91'
+generated_by: 'Module::Install version 1.01'
 license: perl
 meta-spec:
   url: http://module-build.sourceforge.net/META-spec-v1.4.html
@@ -17,6 +18,7 @@ meta-spec:
 name: Debug-Client
 no_index:
   directory:
+    - eg
     - inc
     - t
 requires:
@@ -25,8 +27,8 @@ requires:
   Test::More: 0.47
   perl: 5.006
 resources:
-  bugtracker: http://padre.perlide.org/
+  bugtracker: http://padre.perlide.org/trac
   homepage: http://padre.perlide.org/
   license: http://dev.perl.org/licenses/
   repository: http://svn.perlide.org/padre/trunk/Debug-Client/
-version: 0.11
+version: 0.12

@@ -1,4 +1,5 @@
 Changes
+eg/debugger.pl
 inc/Module/Install.pm
 inc/Module/Install/Base.pm
 inc/Module/Install/Can.pm
@@ -26,6 +27,8 @@ t/06-breakpoint.t
 t/07-quit.t
 t/08-recursive.t
 t/09-io.t
+t/12-package.t
+t/99-perldb.t
 t/eg/01-add.pl
 t/eg/02-sub.pl
 t/eg/03-return.pl
@@ -33,4 +36,7 @@ t/eg/04-fib.pl
 t/eg/05-io.pl
 t/eg/10-module.pl
 t/eg/11-changes.pl
+t/eg/12-package.pl
+t/eg/20-std.pl
+t/eg/Test.pm
 t/lib/Debugger.pm
