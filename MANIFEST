@@ -4,6 +4,8 @@ all/coverage.html
 all/digests
 all/structure/e8177b5c5c674a120e5df9ae1de5858d
 Changes
+Debug-Client-0.13_01.tar.gz
+Debug-Client-0.13_02.tar.gz
 eg/debugger.pl
 inc/Module/Install.pm
 inc/Module/Install/Base.pm
@@ -36,6 +38,7 @@ t/08-recursive.t
 t/09-io.t
 t/12-package.t
 t/13-show_breakpoints.t
+t/14-y_zero.t
 t/99-perldb.t
 t/eg/01-add.pl
 t/eg/02-sub.pl
@@ -45,6 +48,7 @@ t/eg/05-io.pl
 t/eg/10-module.pl
 t/eg/11-changes.pl
 t/eg/12-package.pl
+t/eg/14-y_zero.pl
 t/eg/20-std.pl
 t/eg/Test.pm
 t/lib/Debugger.pm

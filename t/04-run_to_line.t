@@ -11,7 +11,7 @@ import Test::More;
 require Test::Deep;
 import Test::Deep;
 
-plan( tests => 5 );
+# plan( tests => 5 );
 
 my $debugger = start_debugger();
 my $perl5db_ver;
@@ -44,7 +44,7 @@ my $perl5db_ver;
 SKIP: {
 	skip( 'perl5db v1.34 dose not support "c [line|sub]"', 1 ) unless $perl5db_ver < 1.34;
 	my @out = $debugger->run(17);
-	cmp_deeply( \@out, [ 'main::f', 't/eg/02-sub.pl', 17, '   my $multi = $q * $w;' ], 'line 17' )
+	cmp_deeply( \@out, [ 'main::func1', 't/eg/02-sub.pl', 17, '   my $multi = $q * $w;' ], 'line 17' )
 		or diag( $debugger->buffer );
 }
 
@@ -77,3 +77,9 @@ SKIP: {
 {
 	$debugger->quit;
 }
+
+done_testing( );
+
+1;
+
+__END__
