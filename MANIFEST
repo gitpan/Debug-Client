@@ -39,6 +39,8 @@ t/09-io.t
 t/12-package.t
 t/13-show_breakpoints.t
 t/14-y_zero.t
+t/15-get_v_vars.t
+t/16-get_x_vars.t
 t/99-perldb.t
 t/eg/01-add.pl
 t/eg/02-sub.pl

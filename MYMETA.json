@@ -1,7 +1,9 @@
 {
    "abstract" : "client side code for perl debugger",
    "author" : [
-      "Gabor Szabo"
+      "Gabor Szabo <gabor@szabgab.com>",
+      "Breno G. de Oliveira <garu at cpan.org>",
+      "Kevin Dawson <bowtie@cpan.org>"
    ],
    "dynamic_config" : 0,
    "generated_by" : "Module::Install version 1.04, CPAN::Meta::Converter version 2.112621",
@@ -24,9 +26,9 @@
       "build" : {
          "requires" : {
             "ExtUtils::MakeMaker" : "6.62",
-            "File::HomeDir" : 0,
-            "Test::Deep" : 0,
-            "Test::More" : "0.88"
+            "File::HomeDir" : "0.98",
+            "Test::Deep" : "0.108",
+            "Test::More" : "0.98"
          }
       },
       "configure" : {
@@ -36,9 +38,9 @@
       },
       "runtime" : {
          "requires" : {
-            "Carp" : 0,
-            "IO::Socket" : 0,
-            "Test::More" : "0.88",
+            "Carp" : "1.20",
+            "IO::Socket" : "1.31",
+            "PadWalker" : "1.92",
             "perl" : "5.006"
          }
       }
@@ -56,5 +58,5 @@
          "url" : "http://svn.perlide.org/padre/trunk/Debug-Client/"
       }
    },
-   "version" : "0.13_02"
+   "version" : "0.13_03"
 }
