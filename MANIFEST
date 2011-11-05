@@ -1,11 +1,19 @@
+all/blib-lib-Debug-Client-pm.html
 all/cover.13
 all/cover.css
 all/coverage.html
 all/digests
 all/structure/e8177b5c5c674a120e5df9ae1de5858d
 Changes
-Debug-Client-0.13_01.tar.gz
-Debug-Client-0.13_02.tar.gz
+cover_db_0.12/blib-lib-Debug-Client-pm--branch.html
+cover_db_0.12/blib-lib-Debug-Client-pm--condition.html
+cover_db_0.12/blib-lib-Debug-Client-pm--subroutine.html
+cover_db_0.12/blib-lib-Debug-Client-pm.html
+cover_db_0.12/cover.13
+cover_db_0.12/cover.css
+cover_db_0.12/coverage.html
+cover_db_0.12/digests
+cover_db_0.12/structure/e8177b5c5c674a120e5df9ae1de5858d
 eg/debugger.pl
 inc/Module/Install.pm
 inc/Module/Install/Base.pm
@@ -19,9 +27,6 @@ lib/Debug/Client.pm
 Makefile.PL
 MANIFEST			This list of files
 META.yml
-MYMETA.json
-MYMETA.yml
-README
 t/00-internal.t
 t/01-add.t
 t/02-sub-step_out.t
@@ -54,3 +59,11 @@ t/eg/14-y_zero.pl
 t/eg/20-std.pl
 t/eg/Test.pm
 t/lib/Debugger.pm
+xt/changes.t
+xt/critic.t
+xt/distmanifest.t
+xt/hasversion.t
+xt/meta.t
+xt/minimumversion.t
+xt/pod.t
+xt/podcoverage.t
