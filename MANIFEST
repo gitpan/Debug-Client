@@ -5,15 +5,6 @@ all/coverage.html
 all/digests
 all/structure/e8177b5c5c674a120e5df9ae1de5858d
 Changes
-cover_db_0.12/blib-lib-Debug-Client-pm--branch.html
-cover_db_0.12/blib-lib-Debug-Client-pm--condition.html
-cover_db_0.12/blib-lib-Debug-Client-pm--subroutine.html
-cover_db_0.12/blib-lib-Debug-Client-pm.html
-cover_db_0.12/cover.13
-cover_db_0.12/cover.css
-cover_db_0.12/coverage.html
-cover_db_0.12/digests
-cover_db_0.12/structure/e8177b5c5c674a120e5df9ae1de5858d
 eg/debugger.pl
 inc/Module/Install.pm
 inc/Module/Install/Base.pm
@@ -27,6 +18,13 @@ lib/Debug/Client.pm
 Makefile.PL
 MANIFEST			This list of files
 META.yml
+scripts/01-add.pl
+scripts/01-add_t.pl
+scripts/14-y_zero-t.pl
+scripts/14-y_zero.pl
+scripts/Client_0.13_05.pm
+scripts/Client_f1.pm
+scripts/Debugger.pm
 t/00-internal.t
 t/01-add.t
 t/02-sub-step_out.t

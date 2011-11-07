@@ -4,6 +4,9 @@ use 5.008;
 use strict;
 use warnings;
 
+# Turn on $OUTPUT_AUTOFLUSH
+$| = 1;
+
 our $VERSION = '0.13_05';
 
 use utf8;
@@ -314,8 +317,8 @@ sub step_out {
 	# 2  'moo'
 	# main::(t/eg/03-return.pl:10):	$x++;
 
-	$self->_prompt( \$buf );
-	my @line = $self->_process_line( \$buf );
+	$self->_prompt( );
+	my @line = $self->_process_line( );
 	my $ret;
 	my $context;
 	if ( $buf =~ /^(scalar|list) context return from (\S+):\s*(.*)/s ) {
@@ -345,8 +348,8 @@ sub get_stack_trace {
 	$self->_send('T');
 	my $buf = $self->_get;
 
-	$self->_prompt( \$buf );
-	return $buf;
+	$self->_prompt( );
+	return $self->{buffer};
 }
 
 =head2 toggle_trace
@@ -365,8 +368,8 @@ sub toggle_trace {
 	$self->_send('t');
 	my $buf = $self->_get;
 
-	$self->_prompt( \$buf );
-	return $buf;
+	$self->_prompt( );
+	return $self->{buffer};
 }
 
 =head2 list_subroutine_names
@@ -390,8 +393,8 @@ sub list_subroutine_names {
 
 	my $buf = $self->_get;
 
-	$self->_prompt( \$buf );
-	return $buf;
+	$self->_prompt( );
+	return $self->{buffer};
 }
 
 =head2 run
@@ -441,7 +444,7 @@ sub set_breakpoint {
 	my $buf = $self->_get;
 
 	# print $buf . "\n";
-	my $prompt = $self->_prompt( \$buf );
+	my $prompt = $self->_prompt( );
 	if ( $buf =~ /^Subroutine [\w:]+ not found\./ ) {
 
 		# failed
@@ -525,7 +528,7 @@ sub list_break_watch_action {
 	#  17:      my $n = shift;
 	#    break if (1)
 	my $buf    = $self->buffer;
-	my $prompt = $self->_prompt( \$buf );
+	my $prompt = $self->_prompt( );
 
 	my @breakpoints;
 	my %bp;
@@ -563,8 +566,8 @@ sub execute_code {
 
 	$self->_send($code);
 	my $buf = $self->_get;
-	$self->_prompt( \$buf );
-	return $buf;
+	$self->_prompt( );
+	return $self->{buffer};
 }
 
 =head2 get_value
@@ -586,12 +589,12 @@ sub get_value {
 	if ( $var =~ /^\$/ ) {
 		$self->_send("p $var");
 		my $buf = $self->_get;
-		$self->_prompt( \$buf );
-		return $buf;
+		$self->_prompt( );
+		return $self->{buffer};
 	} elsif ( $var =~ /\@/ or $var =~ /\%/ ) {
 		$self->_send("x \\$var");
 		my $buf = $self->_get;
-		$self->_prompt( \$buf );
+		$self->_prompt( );
 		my $data_ref = _parse_dumper($buf);
 		return $data_ref;
 	}
@@ -623,8 +626,8 @@ sub get_y_zero {
 
 	$self->_send("y 0");
 	my $buf = $self->_get;
-	$self->_prompt( \$buf );
-	return $buf;
+	$self->_prompt( );
+	return $self->{buffer};
 }
 
 
@@ -653,8 +656,8 @@ sub get_v_vars {
 		$self->_send('V');
 	}
 	my $buf = $self->_get;
-	$self->_prompt( \$buf );
-	return $buf;
+	$self->_prompt( );
+	return $self->{buffer};
 }
 
 =head2 get_x_vars
@@ -678,8 +681,8 @@ sub get_x_vars {
 	}
 
 	my $buf = $self->_get;
-	$self->_prompt( \$buf );
-	return $buf;
+	$self->_prompt( );
+	return $self->{buffer};
 }
 
 
@@ -701,14 +704,16 @@ in the editor. $module is just the name of the module in which the current execu
 sub get {
 	my ($self) = @_;
 
-	my $buf = $self->_get;
+	# my $buf = $self->_get;
+	$self->_get;
 
 	if (wantarray) {
-		$self->_prompt( \$buf );
-		my ( $module, $file, $row, $content ) = $self->_process_line( \$buf );
+		$self->_prompt( );
+		my ( $module, $file, $row, $content ) = $self->_process_line( );
 		return ( $module, $file, $row, $content );
 	} else {
-		return $buf;
+		return $self->{buffer};
+		# return;
 	}
 }
 
@@ -753,8 +758,10 @@ sub _get {
 
 	#my $remote_host = gethostbyaddr($sock->sockaddr(), AF_INET) || 'remote';
 	my $buf = q{};
+	$self->{buffer} = q{};
 	my $ret;
 	while ( $buf !~ /DB<\d+>/ ) {
+	# while ( $self->{buffer} !~ /DB<\d+>/ ) {
 		$ret = $self->{new_sock}->sysread( $buf, 1024, length $buf );
 		if ( not defined $ret ) {
 			carp $!; # TODO better error handling?
@@ -765,11 +772,13 @@ sub _get {
 			last;
 		}
 	}
-	_logger("---- ret $ret\n$buf\n---");
+	_logger("---- ret $ret\n$self->{buffer}\n---");
 	_logger("_get done");
 
 	$self->{buffer} = $buf;
+	# $buf = $self->{buffer};
 	return $buf;
+	# return;
 }
 
 #######
@@ -803,8 +812,11 @@ sub _parse_dumper {
 # see 00-internal.t for test cases
 sub _process_line {
 	my ( $self, $buf ) = @_;
+	
+	$buf = $self->{buffer};
 
 	if ( not defined $buf or not ref $buf or ref $buf ne 'SCALAR' ) {
+	# if ( not defined $self->{buffer} or not ref $self->{buffer} or ref $self->{buffer} ne 'SCALAR' ) {
 		carp('_process_line should be called with a reference to a scalar');
 	}
 
@@ -820,7 +832,7 @@ sub _process_line {
 	# try to debug some test reports
 	# http://www.nntp.perl.org/group/perl.cpan.testers/2009/12/msg6542852.html
 	if ( not defined $line ) {
-		croak("Debug::Client: Line is undef. Buffer is $$buf");
+		croak("Debug::Client: Line is undef. Buffer is $self->{buffer}");
 	}
 
 	# _logger("Line1: $line");
@@ -876,20 +888,24 @@ sub _prompt {
 
 	# _logger("-prompt buf: $$buf");
 
+	# if ( not defined $self->{buffer} or not ref $self->{buffer} or ref $self->{buffer} ne 'SCALAR' ) {
+		# croak('_prompt should be called with a reference to a scalar');
+	# }
+	$buf = $self->{buffer};
 	if ( not defined $buf or not ref $buf or ref $buf ne 'SCALAR' ) {
 		croak('_prompt should be called with a reference to a scalar');
 	}
-
 	my $prompt;
 	if ( $$buf =~ s/\s*DB<(\d+)>\s*$// ) {
 		$prompt = $1;
 		_logger("prompt: $prompt");
 	}
 	chomp($$buf);
-
+	
+	$self->{buffer} = $buf;
+	
 	return $self->{prompt} = $prompt;
 }
-
 #######
 # Internal Method _send
 #######

@@ -4,6 +4,9 @@ use 5.008;
 use strict;
 use warnings;
 
+# Turn on $OUTPUT_AUTOFLUSH
+$| = 1;
+
 our $VERSION = '0.13_05';
 
 use utf8;

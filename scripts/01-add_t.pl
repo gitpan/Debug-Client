@@ -1,16 +1,15 @@
-#!/usr/bin/env perl
-
 use strict;
 use warnings;
-
 # Turn on $OUTPUT_AUTOFLUSH
 $| = 1;
-
-use t::lib::Debugger;
+use diagnostics;
+use FindBin qw($Bin);
+use lib ("$Bin");
+use Debugger;
 
 # Testing step_in (s) and show_line (.) on a simple script
 
-my ( $dir, $pid ) = start_script('t/eg/01-add.pl');
+my ( $dir, $pid ) = start_script('01-add.pl');
 
 require Test::More;
 import Test::More;
@@ -58,7 +57,7 @@ isa_ok( $debugger, 'Debug::Client' );
 
 {
 	my @out = $debugger->step_in;
-	diag("@out");
+	# diag("@out");
 	cmp_deeply( \@out, [ 'main::', 't/eg/01-add.pl', 6, 'my $x = 1;' ], 'line 6' )
 		or diag( $debugger->buffer );
 }
