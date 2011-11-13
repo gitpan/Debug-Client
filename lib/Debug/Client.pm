@@ -4,7 +4,7 @@ use 5.008;
 use strict;
 use warnings;
 
-our $VERSION = '0.13_07';
+our $VERSION = '0.13_08';
 
 use utf8;
 use IO::Socket;
@@ -1029,6 +1029,8 @@ Gabor Szabo E<lt>gabor@szabgab.comE<gt>
 Breno G. de Oliveira E<lt>garu at cpan.orgE<gt>
 
 Kevin Dawson E<lt>bowtie@cpan.orgE<gt>
+
+Ahmad M. Zawawi E<lt>ahmad.zawawi@gmail.comE<gt>
 
 =head1 COPYRIGHT
 

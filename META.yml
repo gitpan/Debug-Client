@@ -4,12 +4,12 @@ author:
   - 'Gabor Szabo <gabor@szabgab.com>'
   - 'Breno G. de Oliveira <garu at cpan.org>'
   - 'Kevin Dawson <bowtie@cpan.org>'
+  - 'Ahmad M. Zawawi <ahmad.zawawi@gmail.com>'
 build_requires:
-  Exporter: 0
   ExtUtils::MakeMaker: 6.62
-  File::HomeDir: 0
-  File::Spec: 0
-  File::Temp: 0
+  File::HomeDir: 0.98
+  File::Spec: 3.2701
+  File::Temp: 0.20
   Test::Deep: 0.108
   Test::More: 0.98
 configure_requires:
@@ -39,4 +39,4 @@ resources:
   homepage: http://padre.perlide.org/
   license: http://dev.perl.org/licenses/
   repository: http://svn.perlide.org/padre/trunk/Debug-Client/
-version: 0.13_07
+version: 0.13_08
