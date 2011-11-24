@@ -1,0 +1,50 @@
+{
+   "abstract" : "client side code for perl debugger",
+   "author" : [
+      "Gabor Szabo <gabor@szabgab.com>, Breno G. de Oliveira <garu at cpan.org>, Kevin Dawson <bowtie@cpan.org>, Ahmad M. Zawawi <ahmad.zawawi@gmail.com>"
+   ],
+   "dynamic_config" : 0,
+   "generated_by" : "ExtUtils::MakeMaker version 6.62, CPAN::Meta::Converter version 2.112621",
+   "license" : [
+      "perl_5"
+   ],
+   "meta-spec" : {
+      "url" : "http://search.cpan.org/perldoc?CPAN::Meta::Spec",
+      "version" : "2"
+   },
+   "name" : "Debug-Client",
+   "no_index" : {
+      "directory" : [
+         "t",
+         "inc"
+      ]
+   },
+   "prereqs" : {
+      "build" : {
+         "requires" : {
+            "ExtUtils::MakeMaker" : "6.62",
+            "File::HomeDir" : "0.98",
+            "File::Spec" : "3.2701",
+            "File::Temp" : "0.20",
+            "Test::Deep" : "0.108",
+            "Test::More" : "0.98"
+         }
+      },
+      "configure" : {
+         "requires" : {
+            "ExtUtils::MakeMaker" : 0
+         }
+      },
+      "runtime" : {
+         "requires" : {
+            "Carp" : "1.20",
+            "IO::Socket" : "1.31",
+            "IO::Socket::INET" : "1.31",
+            "PadWalker" : "1.92",
+            "perl" : "5.008"
+         }
+      }
+   },
+   "release_status" : "stable",
+   "version" : "0.14"
+}
