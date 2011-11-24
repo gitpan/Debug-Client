@@ -9,12 +9,10 @@ inc/Module/Install/Metadata.pm
 inc/Module/Install/Win32.pm
 inc/Module/Install/WriteAll.pm
 lib/Debug/Client.pm
+lib/Debug/Client.pm.patch
 Makefile.PL
 MANIFEST			This list of files
 META.yml
-MYMETA.json
-MYMETA.yml
-README
 t/00-internal.t
 t/01-add.t
 t/02-sub-step_out.t
@@ -49,3 +47,11 @@ t/eg/14-y_zero.pl
 t/eg/20-std.pl
 t/eg/Test.pm
 t/lib/Debugger.pm
+xt/changes.t
+xt/critic.t
+xt/distmanifest.t
+xt/hasversion.t
+xt/meta.t
+xt/minimumversion.t
+xt/pod.t
+xt/podcoverage.t

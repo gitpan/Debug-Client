@@ -27,15 +27,18 @@ no_index:
     - eg
     - inc
     - t
+    - xt
 requires:
   Carp: 1.20
   IO::Socket: 1.31
   IO::Socket::INET: 1.31
   PadWalker: 1.92
-  perl: 5.008
+  Term::ReadLine: 1.07
+  Term::ReadLine::Perl: 1.0303
+  perl: 5.008005
 resources:
   bugtracker: http://padre.perlide.org/trac
   homepage: http://padre.perlide.org/
   license: http://dev.perl.org/licenses/
   repository: http://svn.perlide.org/padre/trunk/Debug-Client/
-version: 0.14
+version: 0.15
