@@ -9,7 +9,6 @@ inc/Module/Install/Metadata.pm
 inc/Module/Install/Win32.pm
 inc/Module/Install/WriteAll.pm
 lib/Debug/Client.pm
-lib/Debug/Client.pm.patch
 Makefile.PL
 MANIFEST			This list of files
 META.yml
@@ -34,6 +33,7 @@ t/15-get_v_vars.t
 t/16-get_x_vars.t
 t/17-get_p_exp.t
 t/18-get_h_var.t
+t/19-options.t
 t/99-perldb.t
 t/eg/01-add.pl
 t/eg/02-sub.pl
