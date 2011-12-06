@@ -32,8 +32,11 @@ t/14-y_zero.t
 t/15-get_v_vars.t
 t/16-get_x_vars.t
 t/17-get_p_exp.t
+t/17-get_p_exp2.t
 t/18-get_h_var.t
+t/18-get_h_var2.t
 t/19-options.t
+t/19-options2.t
 t/99-perldb.t
 t/eg/01-add.pl
 t/eg/02-sub.pl
@@ -46,7 +49,10 @@ t/eg/12-package.pl
 t/eg/14-y_zero.pl
 t/eg/20-std.pl
 t/eg/Test.pm
+t/Get_h_var.pm
+t/Get_p_exp.pm
 t/lib/Debugger.pm
+t/Options2.pm
 xt/changes.t
 xt/critic.t
 xt/distmanifest.t

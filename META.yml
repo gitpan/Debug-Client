@@ -10,6 +10,7 @@ build_requires:
   File::HomeDir: 0.98
   File::Spec: 3.33
   File::Temp: 0.22
+  Test::Class: 0.36
   Test::Deep: 0.108
   Test::More: 0.98
 configure_requires:
@@ -29,16 +30,16 @@ no_index:
     - t
     - xt
 requires:
-  Carp: 1.20
-  IO::Socket: 1.32
+  Carp: 1.23
+  IO::Socket: 1.31
   IO::Socket::INET: 1.31
   PadWalker: 1.92
   Term::ReadLine: 1.07
   Term::ReadLine::Perl: 1.0303
-  perl: 5.008005
+  perl: 5.008006
 resources:
   bugtracker: http://padre.perlide.org/trac
   homepage: http://padre.perlide.org/
   license: http://dev.perl.org/licenses/
   repository: http://svn.perlide.org/padre/trunk/Debug-Client/
-version: 0.16
+version: 0.17_01
