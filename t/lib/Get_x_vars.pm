@@ -1,4 +1,4 @@
-package Get_h_var;
+package t::lib::Get_x_vars;
 
 use base qw(Test::Class);
 use Test::More;
@@ -11,17 +11,16 @@ sub load_debugger : Test(setup) {
 	start_script('t/eg/14-y_zero.pl');
 	$self->{debugger} = start_debugger();
 	$self->{debugger}->get;
+	$self->{debugger}->set_breakpoint( 't/eg/14-y_zero.pl', '14' );
+	$self->{debugger}->run;
 }
 
-sub help : Test(2) {
+sub get_x_variables : Test(2) {
 	my $self = shift;
-	my $out;
 
-	$out = $self->{debugger}->get_h_var();
-	like( $out, qr/Control script execution/s, 'get_h_var() -> help menu' );
+	ok( $self->{debugger}->get_x_vars('!(ENV|SIG|INC)') =~ m/14-y_zero.pl/, 'X !(ENV|SIG|INC)' );
+	ok( $self->{debugger}->get_x_vars()                 =~ m/14-y_zero.pl/, 'X' );
 
-	$out = $self->{debugger}->get_h_var('h');
-	like( $out, qr/Help.is.currently.only.available.for.the.new.5.8.command.set/s, 'get_h_var(h) -> 5.8 command set' );
 }
 
 # teardown methods are run after every test method.

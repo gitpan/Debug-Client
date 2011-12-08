@@ -1,4 +1,4 @@
-package Get_p_exp;
+package t::lib::Get_v_vars;
 
 use base qw(Test::Class);
 use Test::More;
@@ -15,16 +15,12 @@ sub load_debugger : Test(setup) {
 	$self->{debugger}->run;
 }
 
-sub expression : Test(6) {
+sub get_v_variables : Test(2) {
 	my $self = shift;
-	
-		foreach ( 1 .. 3 ) {
-		$self->{debugger}->run();
 
-		ok( $self->{debugger}->get_p_exp('$_') =~ m/$_/,    "get_p_exp \$_ = $_" );
-		ok( $self->{debugger}->get_p_exp('$line') =~ m/$_/, "get_p_exp \$line = $_" );
-	}
-	
+	ok( $self->{debugger}->get_v_vars('$0') =~ m/14-y_zero.pl/, 'V $0' );
+	ok( $self->{debugger}->get_v_vars()     =~ m/14-y_zero.pl/, 'V' );
+
 }
 
 # teardown methods are run after every test method.

@@ -6,7 +6,7 @@ use warnings;
 # Turn on $OUTPUT_AUTOFLUSH
 $| = 1;
 
-use t::Options2;
+use t::lib::Get_v_vars;
 
 # run all the test methods in Example::Test
 Test::Class->runtests;

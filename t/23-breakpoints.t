@@ -6,7 +6,7 @@ use warnings;
 # Turn on $OUTPUT_AUTOFLUSH
 $| = 1;
 
-use t::Get_p_exp;
+use t::lib::Breakpoints;
 
 # run all the test methods in Example::Test
 Test::Class->runtests;

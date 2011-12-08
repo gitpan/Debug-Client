@@ -1,7 +1,8 @@
-package Options2;
+package t::lib::Subnames;
 
 use base qw(Test::Class);
 use Test::More;
+use Test::Deep;
 
 use t::lib::Debugger;
 
@@ -13,19 +14,12 @@ sub load_debugger : Test(setup) {
 	$self->{debugger}->get;
 }
 
-sub options : Test(3) {
+sub sub_names : Test(2) {
 	my $self = shift;
-	my $out;
-	$out = $self->{debugger}->get_options();
-	like( $out, qr/CommandSet.=.'580'/s, 'get options' ) or diag($out);
 
-	$self->{debugger}->set_breakpoint( 't/eg/14-y_zero.pl', '14' );
+	like( $self->{debugger}->list_subroutine_names(),         qr{Term::ReadLine}, 'S module' );
+	like( $self->{debugger}->list_subroutine_names('strict'), qr{strict},         'S module plus regex' );
 
-	$out = $self->{debugger}->set_option('frame=2');
-	like( $out, qr/frame.=.'2'/s, 'set options' ) or diag($out);
-
-	$out = $self->{debugger}->set_option('frame=0');
-	like( $out, qr/frame.=.'0'/s, 'reset options' ) or diag($out);
 }
 
 # teardown methods are run after every test method.
