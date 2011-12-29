@@ -2,10 +2,9 @@ package t::lib::Breakpoints;
 
 use base qw(Test::Class);
 use Test::More;
-use Test::Deep;
 
 use t::lib::Debugger;
-
+# use Data::Printer { caller_info => 1, colored => 1, };
 # setup methods are run before every test method.
 sub load_debugger : Test(setup) {
 	my $self = shift;
@@ -14,7 +13,7 @@ sub load_debugger : Test(setup) {
 	$self->{debugger}->get;
 }
 
-sub options : Test(3) {
+sub bps : Test(7) {
 	my $self = shift;
 
 	$self->{debugger}->step_in;
@@ -22,9 +21,19 @@ sub options : Test(3) {
 	ok( $self->{debugger}->set_breakpoint( 't/eg/03-return.pl', 'g' ), 'set_breakpoint' );
 
 	ok( $self->{debugger}->show_breakpoints() =~ m{t/eg/03-return.pl:}, 'show_breakpoints' );
+	
+	$self->{debugger}->run;
 
-	my @out = $self->{debugger}->run;
-	cmp_deeply( \@out, [ 'main::g', 't/eg/03-return.pl', 22, q{   my (@in) = @_;} ], 'run to breakpoint' );
+	#lets ask debugger where we are then :)
+	like( $self->{debugger}->show_line(), qr/return.pl:22/, 'check breakpoint' );
+
+	ok( $self->{debugger}->remove_breakpoint( 't/eg/03-return.pl', 'g' ), 'remove breakpoint' );
+
+	ok( $self->{debugger}->show_breakpoints() =~ m{t/eg/03-return.pl:}, 'show_breakpoints' );
+
+	ok( !$self->{debugger}->set_breakpoint( 't/eg/03-return.pl', 'missing' ), 'set_breakpoint against missing sub' );
+
+	ok( !$self->{debugger}->set_breakpoint( 't/eg/03-return.pl', '03' ), 'set_breakpoint line not breakable' );
 
 }
 
