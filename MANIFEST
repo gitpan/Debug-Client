@@ -3,6 +3,7 @@ eg/debugger.pl
 inc/Module/Install.pm
 inc/Module/Install/Base.pm
 inc/Module/Install/Can.pm
+inc/Module/Install/DSL.pm
 inc/Module/Install/Fetch.pm
 inc/Module/Install/Makefile.pm
 inc/Module/Install/Metadata.pm
@@ -65,6 +66,7 @@ t/lib/ToggleTrace.pm
 t/lib/Top_Tail.pm
 t/lib/Y_zero.pm
 t/ticket831.patch
+xt/badcode.t
 xt/changes.t
 xt/critic.t
 xt/distmanifest.t

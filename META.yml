@@ -1,7 +1,6 @@
 ---
-abstract: 'client side code for perl debugger'
+abstract: 'debugger client side code for Padre the Perl IDE'
 author:
-  - 'Gabor Szabo <gabor@szabgab.com>'
   - 'Kevin Dawson <bowtie@cpan.org>'
 build_requires:
   ExtUtils::MakeMaker: 6.62
@@ -20,6 +19,7 @@ license: perl
 meta-spec:
   url: http://module-build.sourceforge.net/META-spec-v1.4.html
   version: 1.4
+module_name: Debug::Client
 name: Debug-Client
 no_index:
   directory:
@@ -34,10 +34,10 @@ requires:
   PadWalker: 1.92
   Term::ReadLine: 1.07
   Term::ReadLine::Perl: 1.0303
-  perl: 5.008006
+  perl: 5.8.6
 resources:
   bugtracker: http://padre.perlide.org/trac
   homepage: http://padre.perlide.org/
   license: http://dev.perl.org/licenses/
   repository: http://svn.perlide.org/padre/trunk/Debug-Client/
-version: 0.17_05
+version: 0.17_06
