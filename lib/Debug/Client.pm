@@ -4,7 +4,7 @@ use 5.008006;
 use strict;
 use warnings;
 
-our $VERSION = '0.17_06';
+our $VERSION = '0.18';
 
 use utf8;
 use IO::Socket;
@@ -18,13 +18,11 @@ use constant {
 
 Debug::Client - debugger client side code for Padre the Perl IDE
 
-development version 0.17_06 for testing only!
+=head1 VERSION
 
-thanks cpan testers :)
+This document describes Debug::Client version 0.18
 
-Warning if you use List request you may get spourios results
-
-=head1 SYNOPIS
+=head1 SYNOPSIS
 
   use Debug::Client;
   my $debugger = Debug::Client->new(host => $host, port => $port);
@@ -116,6 +114,10 @@ Other planned methods:
   # ...
 
 =head1 DESCRIPTION
+
+The prime use of this module is to provide debugger functionality for Padre 0.94+, 
+
+This should be Perl 5.16.0 ready.
 
 =cut
 
@@ -926,7 +928,7 @@ sub module {
 #######
 # Internal Method _get
 #######
-# TODO shall we add a timeout and/or a number to count down the number sysread calls that return 0 before deciding it is really done
+# TODO shall we add a time-out and/or a number to count down the number sysread calls that return 0 before deciding it is really done
 sub _get {
 	my ($self) = @_;
 
@@ -1136,8 +1138,10 @@ __END__
 
 =head1 BUGS AND LIMITATIONS
 
+Warning if you use List request you may get spurious results.
+
 When using against perl5db.pl v1.35 list mode gives an undef response, also leading single quote now correct. 
-Tests are skiped for list mode against v1.35 now.
+Tests are skipped for list mode against v1.35 now.
 
 Debug::Client 0.12 tests are failing, due to changes in perl debugger, 
 when using perl5db.pl v1.34
@@ -1199,7 +1203,7 @@ that's your problem.
 
 =head1 CREDITS and THANKS
 
-Originally started out from the remoteport.pl script from 
+Originally started out from the remote-port.pl script from 
 Pro Perl Debugging written by Richard Foley.
 
 =head1 See Also
@@ -1211,3 +1215,4 @@ L<Devel::ebug>
 L<Devel::Trepan>
 
 =cut
+
