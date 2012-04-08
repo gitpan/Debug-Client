@@ -1,5 +1,5 @@
 ---
-abstract: 'debugger client side code for Padre the Perl IDE'
+abstract: 'debugger client side code for Padre, The Perl IDE.'
 author:
   - 'Kevin Dawson <bowtie@cpan.org>'
 build_requires:
@@ -28,7 +28,7 @@ no_index:
     - t
     - xt
 requires:
-  Carp: 1.23
+  Carp: 1.20
   IO::Socket: 1.31
   IO::Socket::INET: 1.31
   PadWalker: 1.92
@@ -40,4 +40,4 @@ resources:
   homepage: http://padre.perlide.org/
   license: http://dev.perl.org/licenses/
   repository: http://svn.perlide.org/padre/trunk/Debug-Client/
-version: 0.18
+version: 0.19
