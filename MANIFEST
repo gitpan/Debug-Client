@@ -64,12 +64,3 @@ t/lib/ToggleTrace.pm
 t/lib/Top_Tail.pm
 t/lib/Y_zero.pm
 t/ticket831.patch
-xt/badcode.t
-xt/changes.t
-xt/critic.t
-xt/distmanifest.t
-xt/hasversion.t
-xt/meta.t
-xt/minimumversion.t
-xt/pod.t
-xt/podcoverage.t
