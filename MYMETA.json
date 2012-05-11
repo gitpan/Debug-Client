@@ -1,0 +1,71 @@
+{
+   "abstract" : "debugger client side code for Padre, The Perl IDE.",
+   "author" : [
+      "Kevin Dawson <bowtie@cpan.org>"
+   ],
+   "dynamic_config" : 0,
+   "generated_by" : "Module::Install version 1.06, CPAN::Meta::Converter version 2.120921",
+   "license" : [
+      "perl_5"
+   ],
+   "meta-spec" : {
+      "url" : "http://search.cpan.org/perldoc?CPAN::Meta::Spec",
+      "version" : "2"
+   },
+   "name" : "Debug-Client",
+   "no_index" : {
+      "directory" : [
+         "eg",
+         "inc",
+         "t",
+         "xt"
+      ]
+   },
+   "prereqs" : {
+      "build" : {
+         "requires" : {
+            "ExtUtils::MakeMaker" : "6.59",
+            "File::HomeDir" : "0.98",
+            "File::Spec" : "3.33",
+            "File::Temp" : "0.22",
+            "Test::Class" : "0.36",
+            "Test::Deep" : "0.108",
+            "Test::More" : "0.98",
+            "Test::Pod" : "1.45",
+            "Test::Pod::Coverage" : "1.08"
+         }
+      },
+      "configure" : {
+         "requires" : {
+            "ExtUtils::MakeMaker" : "6.59"
+         }
+      },
+      "runtime" : {
+         "requires" : {
+            "Carp" : "1.20",
+            "Data::Printer" : "0.3",
+            "IO::Socket" : "1.31",
+            "IO::Socket::INET" : "1.31",
+            "PadWalker" : "1.92",
+            "Term::ReadLine" : "1.07",
+            "Term::ReadLine::Perl" : "1.0303",
+            "perl" : "5.010"
+         }
+      }
+   },
+   "release_status" : "testing",
+   "resources" : {
+      "bugtracker" : {
+         "web" : "http://padre.perlide.org/trac/wiki/Tickets"
+      },
+      "homepage" : "http://padre.perlide.org/trac/wiki/Features/Perl5Debugger",
+      "license" : [
+         "http://dev.perl.org/licenses/"
+      ],
+      "repository" : {
+         "url" : "http://svn.perlide.org/padre/trunk/Debug-Client/"
+      }
+   },
+   "version" : "0.21_01",
+   "x_module_name" : "Debug::Client"
+}
