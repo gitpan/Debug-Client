@@ -2,12 +2,11 @@ NAME
     Debug::Client - debugger client side code for Padre, The Perl IDE.
 
 VERSION
-    This document describes Debug::Client version 0.21_01
+    This document describes Debug::Client version 0.21_02
 
 SYNOPSIS
       use Debug::Client;
       my $debugger = Debug::Client->new(host => $host, port => $port);
-      $debugger->listener;
 
     Where $host is the host-name to be used by the script under test (SUT)
     to access the machine where Debug::Client runs. If they are on the same
@@ -95,20 +94,6 @@ METHODS
           my $debugger = Debug::Client->new;
 
           my $debugger = Debug::Client->new(host => 'remote.host.com', port => 24642);
-
-        Immediately after the object creation one needs to call
-
-          $debugger->listener;
-
-        TODO: Is there any reason to separate the two?
-
-    listener
-        listener/hearken To listen attentively; give heed. See "BUGS AND
-        LIMITATIONS"
-
-        See "new"
-
-         $debugger->listener
 
     buffer
         Returns the content of the buffer since the last command
@@ -327,8 +312,6 @@ METHODS
 
   Internal Methods
     *   _get
-
-    *   $self->_logger
 
     *   _process_line
 
