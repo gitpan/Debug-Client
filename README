@@ -2,7 +2,7 @@ NAME
     Debug::Client - debugger client side code for Padre, The Perl IDE.
 
 VERSION
-    This document describes Debug::Client version 0.21_02
+    This document describes Debug::Client version 0.21_03
 
 SYNOPSIS
       use Debug::Client;
@@ -95,10 +95,10 @@ METHODS
 
           my $debugger = Debug::Client->new(host => 'remote.host.com', port => 24642);
 
-    buffer
+    get_buffer
         Returns the content of the buffer since the last command
 
-          $debugger->buffer;
+          $debugger->get_buffer;
 
     quit
          $debugger->quit();
@@ -120,8 +120,8 @@ METHODS
 
         Then use the following as and when.
 
-         $debugger->filename;
-         $debugger->row;
+         $debugger->get_filename;
+         $debugger->get_row;
 
         to get filename and row for ide due to changes in perl5db v1.35 see
         perl5156delta
@@ -301,11 +301,11 @@ METHODS
         this is probably not too interesting as it is in the editor. $module
         is just the name of the module in which the current execution is.
 
-    filename
-         $debugger->filename();
+    get_filename
+         $debugger->get_filename();
 
-    row
-         $debugger->row();
+    get_row
+         $debugger->get_row();
 
     module
          $debugger->module();
