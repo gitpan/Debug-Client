@@ -66,6 +66,6 @@
          "url" : "http://svn.perlide.org/padre/trunk/Debug-Client/"
       }
    },
-   "version" : "0.21_03",
+   "version" : "0.21_04",
    "x_module_name" : "Debug::Client"
 }

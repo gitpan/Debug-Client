@@ -4,9 +4,9 @@ use v5.10;
 use strict;
 use warnings;
 
-# Turn on $OUTPUT_AUTOFLUSH
-$| = 1;
-our $VERSION = '0.21_03';
+local $| = 1; # Turn on $OUTPUT_AUTOFLUSH
+
+our $VERSION = '0.21_04';
 
 use utf8;
 use IO::Socket::IP;
@@ -14,24 +14,25 @@ use Carp qw(carp croak cluck);
 
 use constant {
 	BLANK => qq{ },
+	NONE  => q{},
 };
 
-use Data::Printer { caller_info => 1, colored => 1, };
+# use Data::Printer { caller_info => 1, colored => 1, };
 
 #######
 # new
 #######
 sub new {
-	my $class = shift; # What class are we constructing?
-	my $self  = {};    # Allocate new memory
-	bless $self, $class; # Mark it of the right type
-	$self->_init(@_);    # Call _init with remaining args
+	my ( $class, @args ) = @_;   # What class are we constructing?
+	my $self = {};               # Allocate new memory
+	bless $self, $class;         # Mark it of the right type
+	$self->_initialize( @args ); # Call _init with remaining args
 	return $self;
 }
 #######
 # _init
 #######
-sub _init {
+sub _initialize {
 	my ( $self, %args ) = @_;
 
 	$self->{local_host} = $args{host} // 'localhost';
@@ -41,7 +42,6 @@ sub _init {
 	$self->{porto}      = $args{porto}  // 'tcp';
 	$self->{listen}     = $args{listen} // SOMAXCONN;
 	$self->{reuse_addr} = $args{reuse}  // 1;
-
 
 	$self->{buffer} = undef;
 	$self->{module} = undef;
@@ -88,6 +88,7 @@ sub quit {
 #######
 sub show_line {
 	my $self = shift;
+
 	# say 'inside show_line';
 	$self->_send('.');
 	$self->_get;
@@ -104,12 +105,15 @@ sub get_lineinfo {
 
 	$self->_send('.');
 	$self->_get;
+
+	# (?:CODE\(.*\))* 		# catch CODE(0x9b434a8)
+	# \( ([^\)]*):(\d+) \)	# (file):(row)
 	$self->{buffer} =~ m{^[\w:]*				# module
-						(?:CODE\(.*\))* 		# catch CODE(0x9b434a8)
-						\( ([^\)]*):(\d+) \)	# (file):(row)
-                                    }mx;
-	$self->{filename} = $1;
-	$self->{row}      = $2;
+						(?:CODE[(].*[)])* 		# catch CODE(0x9b434a8)
+						[(] (?<file>[^\)]*):(?<row>\d+) [)]	# (file):(row)
+                                    }smx;
+	$self->{filename} = $+{file};
+	$self->{row}      = $+{row};
 
 	return;
 }
@@ -207,9 +211,11 @@ sub run {
 	my ( $self, $param ) = @_;
 
 	if ( defined $param ) {
+
 		# say 'inside run with param';
 		return $self->_send_get("c $param");
 	} else {
+
 		# say 'inside run';
 		return $self->_send_get('c');
 	}
@@ -220,6 +226,7 @@ sub run {
 #######
 sub set_breakpoint {
 	my ( $self, $file, $line, $cond ) = @_;
+
 	# say 'inside set breakpoint';
 	$self->_send("f $file");
 	$self->_get;
@@ -231,19 +238,19 @@ sub set_breakpoint {
 
 	# if it was successful no reply
 
-	if ( $self->{buffer} =~ /^Subroutine [\w:]+ not found\./ ) {
+	if ( $self->{buffer} =~ /^Subroutine [\w:]+ not found[.]/sxm ) {
 
 		# failed
 		return 0;
-	} elsif ( $self->{buffer} =~ /^Line \d+ not breakable\./ ) {
+	} elsif ( $self->{buffer} =~ /^Line \d+ not breakable[.]/sxm ) {
 
 		# failed to set on line number
 		return 0;
-	} elsif ( $self->{buffer} =~ /^\d+ levels deep in subroutine calls!/ ) {
+	} elsif ( $self->{buffer} =~ /^\d+ levels deep in subroutine calls!/sxm ) {
 
 		# failed
 		return 0;
-	} elsif ( $self->{buffer} =~ /\S/ ) {
+	} elsif ( $self->{buffer} =~ /\S/sxm ) {
 		return 0;
 	}
 	return 1;
@@ -284,9 +291,9 @@ sub show_breakpoints {
 #######
 sub get_value {
 	my ( $self, $var ) = @_;
-	
+
 	# if ( $self->get_stack_trace =~ /ANON/ ) {
-		# return 'inside an __ANON__ use "Show Local Variavbles" to view contents';
+	# return 'inside an __ANON__ use "Show Local Variavbles" to view contents';
 	# }
 
 	if ( not defined $var ) {
@@ -294,7 +301,7 @@ sub get_value {
 		$self->_get;
 		$self->_prompt;
 		return $self->{buffer};
-	} elsif ( $var =~ /\@/ or $var =~ /\%/ ) {
+	} elsif ( $var =~ /^\@/sxm or $var =~ /^\%/sxm ) {
 		$self->_send("x \\$var");
 		$self->_get;
 		$self->_prompt;
@@ -303,7 +310,7 @@ sub get_value {
 		$self->_send("p $var");
 		$self->_get;
 		$self->_prompt;
-		if ( $self->{buffer} =~ m/^(?:HASH|ARRAY)/ ) {
+		if ( $self->{buffer} =~ m/^(?:HASH|ARRAY)/sxm ) {
 			$self->_send("x \\$var");
 			$self->_get;
 			$self->_prompt;
@@ -333,7 +340,7 @@ sub get_p_exp {
 sub get_y_zero {
 	my $self = shift;
 
-	$self->_send("y 0");
+	$self->_send('y 0');
 	$self->_get;
 	$self->_prompt;
 
@@ -390,7 +397,7 @@ sub get_h_var {
 	$self->_get;
 
 	#Tidy for Padre Output Panel
-	$self->{buffer} =~ s/(\e\[4m|\e\[24m|\e\[1m|\e\[0m)//mg;
+	$self->{buffer} =~ s/(\e\[4m|\e\[24m|\e\[1m|\e\[0m)//sxmg;
 	$self->_prompt;
 
 	return $self->{buffer};
@@ -402,7 +409,8 @@ sub get_h_var {
 sub set_option {
 	my ( $self, $option ) = @_;
 
-	unless ( defined $option ) {
+	# unless ( defined $option ) {
+	if ( not defined $option ) {
 		return 'missing option';
 	}
 
@@ -430,11 +438,13 @@ sub get_options {
 #######
 sub get {
 	my $self = shift;
+
 	# say 'inside get';
 	$self->_get;
 	if (wantarray) {
 		$self->_prompt;
 		my ( $module, $file, $row, $content ) = $self->_process_line;
+
 		# say 'fin _process_line';
 		return ( $module, $file, $row, $content );
 	} else {
@@ -479,10 +489,12 @@ sub module {
 # TODO shall we add a time-out and/or a number to count down the number sysread calls that return 0 before deciding it is really done
 sub _get {
 	my $self = shift;
+
 	# say 'inside _get';
 
 	#my $remote_host = gethostbyaddr($sock->sockaddr(), AF_INET) || 'remote';
-	my $buffer = q{};
+	# my $buffer = q{};
+	my $buffer = NONE;
 
 	# my $ret;
 	while ( $buffer !~ /DB<\d+>/ ) {
@@ -552,23 +564,26 @@ sub _process_line {
 
 	my $cont = 0;
 	if ($line) {
-		if ( $line =~ /^\d+:   \s*  (.*)$/x ) {
+		if ( $line =~ /^\d+: \s* (.*)$/x ) {
 			$cont = $1;
 			$line = pop @parts;
 
 		}
 	}
 
-	if ($line =~ m{^([\w:]*) 			# module
-                  \( ([^\)]*):(\d+) \) 	# (file:row)
-                  :\t? 					# :
-                  (.*) 					# content
+	if ($line =~ m{^(?<module>[\w:]*)             # module
+                  [(] (?<file>[^\)]*):(?<row>\d+) [)] # (file:row)
+                  :\t?              	 # :
+                  (?<content>.*)              	 # content
                   }mx
 		)
 	{
-		( $module, $file, $row, $content ) = ( $1, $2, $3, $4 );
+		( $module, $file, $row, $content ) = ( $+{module}, $+{file}, $+{row}, $+{content} );
 	}
-	if ( $module eq BLANK || $file eq BLANK || $row eq BLANK ) {
+
+	# if ( $module eq BLANK || $file eq BLANK || $row eq BLANK ) {
+	# we did not need to test for everthing
+	if ( $module eq BLANK ) {
 
 		# preserve buffer why we check where we are test_1415.pl
 		my $preserve_buffer = $self->{buffer};
@@ -576,11 +591,12 @@ sub _process_line {
 		# unless ( defined $module || defined $file || defined $row ) {
 		my $current_file = $self->show_line();
 
-		$current_file =~ m/([\w:]*) \( (.*) : (\d+) .* /mgx;
+		# $current_file =~ m/([\w:]*) \( (.*) : (\d+) .* /mgx;
+		$current_file =~ m/(?<module>[\w:]*) [(] (?<file>.*) : (?<row>\d+) .* /mgxs;
 
-		$module         = $1;
-		$file           = $2;
-		$row            = $3;
+		$module         = $+{module};
+		$file           = $+{file};
+		$row            = $+{row};
 		$self->{buffer} = $preserve_buffer;
 
 	}
@@ -614,8 +630,8 @@ sub _prompt {
 	##$DB::single = 1;
 
 	my $prompt;
-	if ( $self->{buffer} =~ s/\s*DB<(\d+)>\s*$// ) {
-		$prompt = $1;
+	if ( $self->{buffer} =~ s/\s*DB<(?<prompt>\d+)>\s*$// ) {
+		$prompt = $+{prompt};
 
 		# $self->_logger("prompt: $prompt");
 	}
@@ -636,6 +652,7 @@ sub _prompt {
 #######
 sub _send {
 	my ( $self, $input ) = @_;
+
 	# say 'inside _send';
 
 	# print { $self->{socket} } "$input\n";
@@ -700,7 +717,7 @@ Debug::Client - debugger client side code for Padre, The Perl IDE.
 
 =head1 VERSION
 
-This document describes Debug::Client version 0.21_03
+This document describes Debug::Client version 0.21_04
 
 =head1 SYNOPSIS
 

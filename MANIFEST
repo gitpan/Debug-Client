@@ -21,7 +21,8 @@ t/00.load.t
 t/01-Debug-Client.t
 t/02-pod.t
 t/03-pod-coverage.t
-t/09-io.t
+t/05-io.t
+t/06-initialize.t
 t/10-top_tail.t
 t/11-add.t
 t/13-return.t
