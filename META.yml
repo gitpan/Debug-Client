@@ -31,9 +31,7 @@ no_index:
     - xt
 requires:
   Carp: 1.20
-  Data::Printer: 0.3
-  IO::Socket: 1.31
-  IO::Socket::IP: 0.10
+  IO::Socket::IP: 0.16
   PadWalker: 1.92
   Term::ReadLine: 1.07
   Term::ReadLine::Perl: 1.0303
@@ -43,4 +41,4 @@ resources:
   homepage: http://padre.perlide.org/trac/wiki/Features/Perl5Debugger
   license: http://dev.perl.org/licenses/
   repository: http://svn.perlide.org/padre/trunk/Debug-Client/
-version: 0.21_04
+version: 0.21_05

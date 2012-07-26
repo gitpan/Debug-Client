@@ -3,12 +3,10 @@ use inc::Module::Install::DSL 1.06;
 all_from	lib/Debug/Client.pm
 
 requires Carp					1.20
-requires IO::Socket				1.31
-requires IO::Socket::IP			0.10
+requires IO::Socket::IP			0.16
 requires PadWalker				1.92
 requires Term::ReadLine			1.07
 requires Term::ReadLine::Perl	1.0303
-requires Data::Printer          0.3
 
 test_requires File::HomeDir			0.98
 test_requires File::Spec			3.33

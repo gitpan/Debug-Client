@@ -6,7 +6,7 @@ use warnings;
 
 local $| = 1; # Turn on $OUTPUT_AUTOFLUSH
 
-our $VERSION = '0.21_04';
+our $VERSION = '0.21_05';
 
 use utf8;
 use IO::Socket::IP;
@@ -17,7 +17,6 @@ use constant {
 	NONE  => q{},
 };
 
-# use Data::Printer { caller_info => 1, colored => 1, };
 
 #######
 # new
@@ -26,7 +25,7 @@ sub new {
 	my ( $class, @args ) = @_;   # What class are we constructing?
 	my $self = {};               # Allocate new memory
 	bless $self, $class;         # Mark it of the right type
-	$self->_initialize( @args ); # Call _init with remaining args
+	$self->_initialize( @args ); # Call _initialize with remaining args
 	return $self;
 }
 #######
@@ -36,7 +35,7 @@ sub _initialize {
 	my ( $self, %args ) = @_;
 
 	$self->{local_host} = $args{host} // 'localhost';
-	$self->{local_port} = $args{port} // 24642;
+	$self->{local_port} = $args{port} // 24_642;
 
 	#for IO::Socket::IP
 	$self->{porto}      = $args{porto}  // 'tcp';
@@ -55,11 +54,6 @@ sub _initialize {
 		ReuseAddr => $self->{reuse_addr},
 	) or carp "Could not connect to '$self->{local_host}' '$self->{local_port}' no socket :$!";
 
-	# $sock or carp "Could not connect to '$self->{local_host}' '$self->{local_port}' no socket :$!";
-
-	# $self->{sock}     = $sock;
-	# $self->{new_sock} = $self->{sock}->accept();
-	# $self->{sock}     = $sock;
 	$self->{socket} = $sock->accept();
 	return;
 }
@@ -105,9 +99,6 @@ sub get_lineinfo {
 
 	$self->_send('.');
 	$self->_get;
-
-	# (?:CODE\(.*\))* 		# catch CODE(0x9b434a8)
-	# \( ([^\)]*):(\d+) \)	# (file):(row)
 	$self->{buffer} =~ m{^[\w:]*				# module
 						(?:CODE[(].*[)])* 		# catch CODE(0x9b434a8)
 						[(] (?<file>[^\)]*):(?<row>\d+) [)]	# (file):(row)
@@ -291,10 +282,6 @@ sub show_breakpoints {
 #######
 sub get_value {
 	my ( $self, $var ) = @_;
-
-	# if ( $self->get_stack_trace =~ /ANON/ ) {
-	# return 'inside an __ANON__ use "Show Local Variavbles" to view contents';
-	# }
 
 	if ( not defined $var ) {
 		$self->_send('p');
@@ -490,17 +477,11 @@ sub module {
 sub _get {
 	my $self = shift;
 
-	# say 'inside _get';
-
-	#my $remote_host = gethostbyaddr($sock->sockaddr(), AF_INET) || 'remote';
-	# my $buffer = q{};
 	my $buffer = NONE;
 
-	# my $ret;
 	while ( $buffer !~ /DB<\d+>/ ) {
 		my $ret = $self->{socket}->sysread( $buffer, 1024, length $buffer );
 
-		# $ret = $self->{socket}->recv($buffer,1024);
 		if ( not defined $ret ) {
 			carp $!; # TODO better error handling?
 		}
@@ -512,7 +493,6 @@ sub _get {
 
 	$self->{buffer} = $buffer;
 
-	# return $buffer;
 	return;
 }
 
@@ -533,8 +513,6 @@ sub _get {
 sub _process_line {
 	my $self   = shift;
 	my $buffer = $self->{buffer};
-
-	# say 'inside _process_line';
 
 	my $line    = BLANK;
 	my $module  = BLANK;
@@ -624,26 +602,14 @@ sub _process_line {
 sub _prompt {
 	my $self = shift;
 
-	# my $buffer = $self->{buffer};
-
-	# say 'inside _prompt';
-	##$DB::single = 1;
-
 	my $prompt;
 	if ( $self->{buffer} =~ s/\s*DB<(?<prompt>\d+)>\s*$// ) {
 		$prompt = $+{prompt};
-
-		# $self->_logger("prompt: $prompt");
 	}
 
-	# p $self->{buffer};
 	chomp $self->{buffer};
-
 	$self->{prompt} = $prompt;
 
-	# $self->{buffer} = $buffer;
-	# p $self->{prompt};
-	# p $self->{buffer};
 	return $self->{prompt};
 }
 
@@ -653,13 +619,7 @@ sub _prompt {
 sub _send {
 	my ( $self, $input ) = @_;
 
-	# say 'inside _send';
-
-	# print { $self->{socket} } "$input\n";
-	## print $self->{socket} "$input\n";
-	#ToDo sort out why the following dose not work
 	$self->{socket}->print( $input . "\n" );
-	## $self->{socket}->send($input."\n");
 
 	return 1;
 }
@@ -670,8 +630,6 @@ sub _send {
 #######
 sub _send_get {
 	my ( $self, $input ) = @_;
-
-	# say 'inside _send then get';
 
 	$self->_send($input);
 
@@ -717,7 +675,7 @@ Debug::Client - debugger client side code for Padre, The Perl IDE.
 
 =head1 VERSION
 
-This document describes Debug::Client version 0.21_04
+This document describes Debug::Client version 0.21_05
 
 =head1 SYNOPSIS
 
@@ -1116,7 +1074,9 @@ Wolfram Humann E<lt>whumann@cpan.orgE<gt>
 
 =head1 COPYRIGHT
 
-Copyright 2008-2012 Gabor Szabo/Kevin Dawson
+Copyright 2008-2011 Gabor Szabo
+
+Some parts copyright 2011-2012 Kevin Dawson
 
 =head1 LICENSE
 
