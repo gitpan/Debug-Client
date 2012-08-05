@@ -1,5 +1,4 @@
 Changes
-Debian_CPANTS.txt
 eg/debugger.pl
 inc/Module/Install.pm
 inc/Module/Install/Base.pm
@@ -14,8 +13,6 @@ lib/Debug/Client.pm
 Makefile.PL
 MANIFEST			This list of files
 META.yml
-MYMETA.json
-MYMETA.yml
 README
 t/00.load.t
 t/01-Debug-Client.t
@@ -72,14 +69,3 @@ t/lib/Test_1415.pm
 t/lib/ToggleTrace.pm
 t/lib/Top_Tail.pm
 t/lib/Y_zero.pm
-t/ticket831.patch
-xt/changes.t
-xt/critic.t
-xt/distmanifest.t
-xt/eol.t
-xt/hasversion.t
-xt/kwalitee.t
-xt/meta.t
-xt/minimumversion.t
-xt/pod.t
-xt/podcoverage.t
