@@ -30,7 +30,7 @@ no_index:
     - t
 requires:
   Carp: 1.20
-  IO::Socket::IP: 0.16
+  IO::Socket::IP: 0.17
   PadWalker: 1.92
   Term::ReadLine: 1.07
   Term::ReadLine::Perl: 1.0303
@@ -40,4 +40,4 @@ resources:
   homepage: http://padre.perlide.org/trac/wiki/Features/Perl5Debugger
   license: http://dev.perl.org/licenses/
   repository: http://svn.perlide.org/padre/trunk/Debug-Client/
-version: 0.21_06
+version: 0.21_07
