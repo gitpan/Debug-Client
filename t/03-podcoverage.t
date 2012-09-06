@@ -1,6 +1,11 @@
 #!/usr/bin/env perl
 
-use strict;
+# Ensure pod coverage in your distribution
+use strictures 1;
+
+# Turn on $OUTPUT_AUTOFLUSH
+local $| = 1;
+
 use Test::More;
 
 eval "use Test::Pod::Coverage 1.08";
