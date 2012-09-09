@@ -1,5 +1,8 @@
-#!/usr/bin/env perl
-use strictures 1;
+#!/usr/bin/perl
+    
+use 5.010;
+use strict;
+use warnings FATAL => 'all';
 
 # Turn on $OUTPUT_AUTOFLUSH
 local $| = 1;

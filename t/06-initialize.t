@@ -1,20 +1,18 @@
-#!/usr/bin/env perl
+#!/usr/bin/perl
 
-use v5.10;
-use strictures 1;
+use 5.010;
+use strict;
+use warnings FATAL => 'all';
 
 # Turn on $OUTPUT_AUTOFLUSH
 local $| = 1;
 
-use Test::More;
+use Test::More tests => 4;
 use Test::Deep;
-
-plan( tests => 4 );
 
 use File::Temp qw(tempdir);
 my ( $host, $port, $porto, $listen, $reuse_addr );
-
-{
+SCOPE: {
 	$host       = 'localhost';
 	$port       = 24642;
 	$porto      = 'tcp';
@@ -36,7 +34,7 @@ my ( $host, $port, $porto, $listen, $reuse_addr );
 	ok( $debugger->quit, 'quit with prams' );
 }
 
-{
+SCOPE: {
 	$host = 'localhost';
 	$port = 24642;
 	my ( $dir, $pid ) = run_perl5db( 't/eg/05-io.pl', $host, $port );
@@ -68,9 +66,3 @@ sub run_perl5db {
 	}
 	return ($dir);
 }
-
-done_testing();
-
-1;
-
-__END__

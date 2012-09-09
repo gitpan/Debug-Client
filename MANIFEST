@@ -14,10 +14,8 @@ Makefile.PL
 MANIFEST			This list of files
 META.yml
 README
-t/00.load.t
-t/01-Debug-Client.t
-t/02-pod.t
-t/03-podcoverage.t
+t/01-compile.t
+t/02-exports.t
 t/05-io.t
 t/06-initialize.t
 t/10-top_tail.t

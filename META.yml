@@ -9,8 +9,6 @@ build_requires:
   File::Temp: 0.22
   Test::Deep: 0.108
   Test::More: 0.98
-  Test::Pod: 1.45
-  Test::Pod::Coverage: 1.08
 configure_requires:
   ExtUtils::MakeMaker: 6.59
 distribution_type: module
@@ -35,10 +33,9 @@ requires:
   Term::ReadLine: 1.07
   Term::ReadLine::Perl: 1.0303
   perl: 5.10.0
-  strictures: 1.004001
 resources:
   bugtracker: http://padre.perlide.org/trac/wiki/Tickets
   homepage: http://padre.perlide.org/trac/wiki/Features/Perl5Debugger
   license: http://dev.perl.org/licenses/
   repository: http://svn.perlide.org/padre/trunk/Debug-Client/
-version: 0.21_10
+version: 0.21_11

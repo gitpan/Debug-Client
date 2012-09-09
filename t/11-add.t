@@ -1,20 +1,19 @@
-#!/usr/bin/env perl
+#!/usr/bin/perl
 
-use strictures 1;
+use 5.010;
+use strict;
+use warnings FATAL => 'all';
 
 # Turn on $OUTPUT_AUTOFLUSH
 local $| = 1;
 
+use Test::More tests => 10;
+use Test::Deep;
 use t::lib::Debugger;
 
 # Testing step_in (s) and show_line (.) on a simple script
 
 my ( $dir, $pid ) = start_script('t/eg/01-add.pl');
-
-use Test::More;
-use Test::Deep;
-
-plan( tests => 10 );
 
 # diag("PID $pid");
 my $debugger = start_debugger();
