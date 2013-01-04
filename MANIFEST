@@ -17,6 +17,8 @@ META.yml
 README
 t/01-compile.t
 t/02-exports.t
+t/03-pod.t
+t/04-pod-coverage.t
 t/05-io.t
 t/06-initialize.t
 t/10-top_tail.t
@@ -38,6 +40,7 @@ t/26-get_x_vars.t
 t/27-get_p_exp.t
 t/28-get_h_var.t
 t/29-options.t
+t/40-test_1415-old.t
 t/40-test_1415.t
 t/99-perldb.t
 t/eg/01-add.pl
@@ -47,6 +50,7 @@ t/eg/05-io.pl
 t/eg/14-y_zero.pl
 t/eg/test_1415.pl
 t/lib/Debugger.pm
+t/lib/Test_1415.pm
 xt/changes.t
 xt/critic.t
 xt/distmanifest.t

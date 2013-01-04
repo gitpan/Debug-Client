@@ -24,7 +24,7 @@ local $ENV{PERL_RL} = ' ornaments=0';
 
 my $debugger = start_debugger();
 
-{
+SCOPE:{
 	my $out = $debugger->get;
 
 	like( $out, qr/Loading DB routines from perl5db.pl version/, 'loading line' );
@@ -95,3 +95,7 @@ my $prefix = ( substr( $], 0, 5 ) eq '5.008006' ) ? "Default die handler restore
 
 $debugger->run;
 $debugger->quit;
+
+done_testing();
+
+__END__

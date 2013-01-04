@@ -7,8 +7,10 @@ build_requires:
   File::HomeDir: 0.98
   File::Spec: 3.33
   File::Temp: 0.22
-  Test::Deep: 0.108
+  Test::Class: 0.38
+  Test::Deep: 0.110
   Test::More: 0.98
+  Time::HiRes: 1.9725
 configure_requires:
   ExtUtils::MakeMaker: 6.59
 distribution_type: module
@@ -27,9 +29,9 @@ no_index:
     - t
     - xt
 requires:
-  Carp: 1.20
-  IO::Socket::IP: 0.17
-  PadWalker: 1.92
+  Carp: 1.26
+  IO::Socket::IP: 0.18
+  PadWalker: 1.96
   Term::ReadLine: 1.07
   Term::ReadLine::Perl: 1.0303
   perl: 5.10.0
@@ -38,4 +40,4 @@ resources:
   homepage: http://padre.perlide.org/trac/wiki/Features/Perl5Debugger
   license: http://dev.perl.org/licenses/
   repository: http://svn.perlide.org/padre/trunk/Debug-Client/
-version: 0.21_12
+version: 0.21_14
