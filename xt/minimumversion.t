@@ -8,8 +8,8 @@ BEGIN {
 }
 
 my @MODULES = (
-	'Perl::MinimumVersion 1.20',
-	'Test::MinimumVersion 0.008',
+	'Perl::MinimumVersion 1.32', #detects \N
+	'Test::MinimumVersion 0.101080',
 );
 
 # Don't run tests during end-user installs
