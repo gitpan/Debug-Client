@@ -36,4 +36,4 @@ resources:
   homepage: http://padre.perlide.org/trac/wiki/Features/Perl5Debugger
   license: http://dev.perl.org/licenses/
   repository: http://svn.perlide.org/padre/trunk/Debug-Client/
-version: 0.21_15
+version: 0.21_16
