@@ -11,7 +11,6 @@ build_requires:
   Test::Class: 0.39
   Test::Deep: 0.11
   Test::More: 0.98
-  Time::HiRes: 1.9725
   parent: 0.225
   version: 0.9902
 configure_requires:
@@ -47,4 +46,4 @@ resources:
   homepage: http://padre.perlide.org/trac/wiki/Features/Perl5Debugger
   license: http://dev.perl.org/licenses/
   repository: http://svn.perlide.org/padre/trunk/Debug-Client/
-version: 0.24_01
+version: 0.24_02
