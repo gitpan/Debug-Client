@@ -18,7 +18,7 @@ use File::Temp qw(tempdir);
 our @ISA    = 'Exporter';
 our @EXPORT = qw(start_script start_debugger slurp rc_file);
 
-my $host = 'localhost';
+my $host = '127.0.0.1';
 my $port = 24642 + int rand(1000);
 
 sub start_script {
@@ -28,7 +28,7 @@ sub start_script {
 	my $path = $dir;
 	my $pid;
 	if ( $OSNAME eq 'MSWin32' ) {
-
+		$pid = 'fudge'; # as we don't get one from win32
 		$path = Win32::GetLongPathName($path);
 		local $ENV{PERLDB_OPTS} = "RemotePort=$host:$port";
 
