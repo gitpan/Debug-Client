@@ -1,0 +1,56 @@
+{
+   "abstract" : "debugger client side code for Padre, The Perl IDE.",
+   "author" : [
+      "Kevin Dawson <bowtie@cpan.org>"
+   ],
+   "dynamic_config" : 0,
+   "generated_by" : "ExtUtils::MakeMaker version 6.64, CPAN::Meta::Converter version 2.130880",
+   "license" : [
+      "perl_5"
+   ],
+   "meta-spec" : {
+      "url" : "http://search.cpan.org/perldoc?CPAN::Meta::Spec",
+      "version" : "2"
+   },
+   "name" : "Debug-Client",
+   "no_index" : {
+      "directory" : [
+         "t",
+         "inc"
+      ]
+   },
+   "prereqs" : {
+      "build" : {
+         "requires" : {
+            "Exporter" : "5.68",
+            "ExtUtils::MakeMaker" : "6.59",
+            "File::HomeDir" : "1",
+            "File::Spec" : "3.4",
+            "File::Temp" : "0.2301",
+            "Test::Class" : "0.39",
+            "Test::Deep" : "0.11",
+            "Test::More" : "0.98",
+            "parent" : "0.225",
+            "version" : "0.9902"
+         }
+      },
+      "configure" : {
+         "requires" : {
+            "ExtUtils::MakeMaker" : "0"
+         }
+      },
+      "runtime" : {
+         "requires" : {
+            "Carp" : "1.26",
+            "IO::Socket::IP" : "0.2",
+            "PadWalker" : "1.96",
+            "Term::ReadLine" : "1.07",
+            "Term::ReadLine::Perl" : "1.0303",
+            "constant" : "1.27",
+            "perl" : "5.010"
+         }
+      }
+   },
+   "release_status" : "stable",
+   "version" : "0.25"
+}

@@ -14,25 +14,18 @@ build_requires:
   parent: 0.225
   version: 0.9902
 configure_requires:
-  ExtUtils::MakeMaker: 6.59
-distribution_type: module
-dynamic_config: 1
-generated_by: 'Module::Install version 1.06'
+  ExtUtils::MakeMaker: 0
+dynamic_config: 0
+generated_by: 'ExtUtils::MakeMaker version 6.64, CPAN::Meta::Converter version 2.130880'
 license: perl
 meta-spec:
   url: http://module-build.sourceforge.net/META-spec-v1.4.html
   version: 1.4
-module_name: Debug::Client
 name: Debug-Client
 no_index:
   directory:
-    - eg
-    - inc
     - t
-    - xt
-recommends:
-  Test::Pod: 1.46
-  Test::Pod::Coverage: 1.08
+    - inc
 requires:
   Carp: 1.26
   IO::Socket::IP: 0.2
@@ -40,10 +33,5 @@ requires:
   Term::ReadLine: 1.07
   Term::ReadLine::Perl: 1.0303
   constant: 1.27
-  perl: 5.10.0
-resources:
-  bugtracker: http://padre.perlide.org/trac/wiki/Tickets
-  homepage: http://padre.perlide.org/trac/wiki/Features/Perl5Debugger
-  license: http://dev.perl.org/licenses/
-  repository: http://svn.perlide.org/padre/trunk/Debug-Client/
+  perl: 5.010
 version: 0.25
