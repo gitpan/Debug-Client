@@ -13,10 +13,10 @@ our $VERSION = '0.04';
 use English qw( -no_match_vars );
 
 local $OUTPUT_AUTOFLUSH = 1;
-use Data::Printer {caller_info => 1, colored => 1,};
+# use Data::Printer {caller_info => 1, colored => 1,};
 
 use Test::More;
-use Test::Requires {'ExtUtils::MakeMaker'   => 6.66};
+use Test::Requires {'ExtUtils::MakeMaker'   => 6.64};
 use Test::Requires {'File::Spec::Functions' => 3.40};
 use Test::Requires {'List::Util '           => 1.27};
 
@@ -56,7 +56,7 @@ my $cpan_meta = "CPAN::Meta";
 if (-f "MYMETA.json" && eval "require $cpan_meta") {    ## no critic
   if (my $meta = eval { CPAN::Meta->load_file("MYMETA.json") }) {
     my $prereqs = $meta->prereqs;
-p $prereqs;
+#p $prereqs;
     my %uniq
       = map { $_ => 1 } map { keys %$_ } map { values %$_ } values %$prereqs;
     $uniq{$_} = 1 for @modules;    # don't lose any static ones

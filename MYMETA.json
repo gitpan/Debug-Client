@@ -32,6 +32,7 @@
             "Test::Class" : "0.39",
             "Test::Deep" : "0.11",
             "Test::More" : "0.98",
+            "Test::Requires" : "0.06",
             "parent" : "0.225",
             "version" : "0.9902"
          }
@@ -43,18 +44,20 @@
       },
       "runtime" : {
          "recommends" : {
+            "Term::ReadLine::EditLine" : "1.2",
+            "Term::ReadLine::Gnu" : "1.2",
             "Test::Pod" : "1.46",
             "Test::Pod::Coverage" : "1.08"
          },
          "requires" : {
             "Carp" : "1.26",
-            "IO::Socket::IP" : "0.2",
+            "IO::Socket::IP" : "0.21",
             "PadWalker" : "1.96",
-            "Term::ReadKey" : "2.30",
-            "Term::ReadLine" : "1.10",
+            "Term::ReadKey" : "2.3",
+            "Term::ReadLine" : "1.1",
             "Term::ReadLine::Perl" : "1.0303",
             "constant" : "1.27",
-            "perl" : "5.010"
+            "perl" : "5.010001"
          }
       }
    },
@@ -71,6 +74,6 @@
          "url" : "http://svn.perlide.org/padre/trunk/Debug-Client/"
       }
    },
-   "version" : "0.25_01",
+   "version" : "0.25_04",
    "x_module_name" : "Debug::Client"
 }

@@ -8,9 +8,15 @@ local $OUTPUT_AUTOFLUSH = 1;
 
 BEGIN {
 	use Term::ReadKey;
-	use Term::ReadLine;
-	use Term::ReadLine::Perl;
+	use Term::ReadLine;	
+	#$ENV{TERM} = 'dumb' if $OSNAME eq 'MSWin32';
 }
+
+# Patch for Debug::Client ticket #831 (MJGARDNER)
+# Turn off ReadLine ornaments
+##local $ENV{PERL_RL} = ' ornaments=0';
+##$ENV{TERM} = 'dumb' if ! exists $ENV{TERM};
+
 
 if ( $OSNAME eq 'MSWin32' ) {
 	require Win32::Process;

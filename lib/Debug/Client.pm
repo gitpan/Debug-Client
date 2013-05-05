@@ -10,12 +10,12 @@ no if $] > 5.017010, warnings => 'experimental::smartmatch';
 use English qw( -no_match_vars );
 local $OUTPUT_AUTOFLUSH = 1;
 
-our $VERSION = '0.25_02';
+our $VERSION = '0.25_04';
 
 BEGIN {
-	use Term::ReadLine;
 	use Term::ReadKey;
-	use Term::ReadLine::Perl;
+	use Term::ReadLine;
+	#$ENV{TERM} = 'dumb' if $OSNAME eq 'MSWin32';
 }
 
 use utf8;
@@ -690,7 +690,7 @@ Debug::Client - debugger client side code for Padre, The Perl IDE.
 
 =head1 VERSION
 
-This document describes Debug::Client version: 0.25_02
+This document describes Debug::Client version: 0.25_04
 
 =head1 SYNOPSIS
 

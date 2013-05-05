@@ -5,18 +5,14 @@ use English qw( -no_match_vars );
 local $OUTPUT_AUTOFLUSH = 1;
 #use Data::Printer { caller_info => 1, colored => 1, };
 
-use Test::More tests => 14;
+use Test::More tests => 11;
 use Test::Deep;
 use t::lib::Debugger;
 
-BEGIN {
-	use_ok( 'Term::ReadLine', '1.10' );
-	use_ok( 'Term::ReadKey', '2.30' );
-	use_ok( 'Term::ReadLine::Perl', '1.0303' );
-}
-
-print "env-columns - $ENV{COLUMNS}\n" if defined $ENV{COLUMNS};
-print "env-lines - $ENV{LINES}\n" if defined $ENV{LINES};
+# BEGIN {
+	# use_ok( 'Term::ReadKey', '2.30' );
+	# use_ok( 'Term::ReadLine', '1.10' );
+# }
 
 my ( $dir, $pid ) = start_script('t/eg/05-io.pl');
 my $path = $dir;
@@ -28,11 +24,10 @@ if ( $OSNAME  =~ /Win32/i ) {
 
 # Patch for Debug::Client ticket #831 (MJGARDNER)
 # Turn off ReadLine ornaments
-#local $ENV{PERL_RL} = ' ornaments=0';
-print "mk3 \n";
-#sleep 1;
+##local $ENV{PERL_RL} = ' ornaments=0';
+##$ENV{TERM} = 'dumb' if ! exists $ENV{TERM};
+
 my $debugger = t::lib::Debugger::start_debugger();
-print "mk4 \n";
 
 SCOPE:{
 	my $out = $debugger->get;
