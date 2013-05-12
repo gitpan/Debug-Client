@@ -5,11 +5,11 @@ use English qw( -no_match_vars );
 local $OUTPUT_AUTOFLUSH = 1;
 
 use version;
-use Test::More tests => 14;
+use Test::More tests => 13;
 
 BEGIN {
-	use_ok( 'Term::ReadKey',  '2.30' );
-	use_ok( 'Term::ReadLine', '1.04' );
+#	use_ok( 'Term::ReadKey',  '2.3' );
+	use_ok( 'Term::ReadLine', '1.09' );
 }
 
 diag("\nInfo: Perl $PERL_VERSION");

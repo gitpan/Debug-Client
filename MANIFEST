@@ -4,16 +4,14 @@ eg/test17.pl
 inc/Module/Install.pm
 inc/Module/Install/Base.pm
 inc/Module/Install/Can.pm
-inc/Module/Install/DSL.pm
 inc/Module/Install/Fetch.pm
 inc/Module/Install/Makefile.pm
 inc/Module/Install/Metadata.pm
 inc/Module/Install/Win32.pm
-inc/Module/Install/With.pm
 inc/Module/Install/WriteAll.pm
 lib/Debug/Client.pm
 Makefile.PL
-MANIFEST
+MANIFEST			This list of files
 META.yml
 MYMETA.json
 MYMETA.yml
