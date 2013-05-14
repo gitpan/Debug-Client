@@ -13,9 +13,8 @@ lib/Debug/Client.pm
 Makefile.PL
 MANIFEST			This list of files
 META.yml
-MYMETA.json
-MYMETA.yml
 README
+t/00-check-deps.t
 t/01-compile.t
 t/02-exports.t
 t/03-pod.t
