@@ -23,6 +23,7 @@ t/06-term.t
 t/07-io.t
 t/08-initialize.t
 t/10-top_tail.t
+t/10-top_tail_old.t
 t/11-add.t
 t/13-return.t
 t/14-run.t
@@ -52,4 +53,5 @@ t/eg/14-y_zero.pl
 t/eg/test_1415.pl
 t/lib/Debugger.pm
 t/lib/Test_1415.pm
+t/lib/Top_Tail.pm
 t/report-prereqs.t
