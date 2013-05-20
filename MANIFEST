@@ -20,8 +20,8 @@ t/02-exports.t
 t/03-pod.t
 t/04-pod-coverage.t
 t/06-term.t
-t/07-io.t
-t/08-initialize.t
+t/07-initialize.t
+t/08-io.t
 t/10-top_tail.t
 t/10-top_tail_old.t
 t/11-add.t
